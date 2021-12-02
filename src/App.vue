@@ -1,23 +1,32 @@
-<template>    
-  <TheHeader/>  
-  <div id="content">  
-    <router-view></router-view>        
+<template>
+  <HeaderComponent/>
+  <div class="app-content">
+    <router-view></router-view>
   </div>
-  <TheFooter/>
+  <FooterComponent/>
 </template>
 
 <script>
 import { Options, Vue } from 'vue-class-component';
-import TheHeader from '@/components/TheHeader.vue';
-import TheFooter from '@/components/TheFooter.vue';
+import HeaderComponent from '@/components/HeaderComponent.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
+import '@/assets/normalize.css';
+import '@/assets/main-styles.scss';
+import '@/assets/colors.scss';
 
 @Options({
   components: {
-    TheHeader,
-    TheFooter
+    HeaderComponent,
+    FooterComponent
   }
 })
 export default class App extends Vue {
   
 }
 </script>
+
+<style lang='scss'>
+  .app-content {
+    margin-left: 30px;
+  }
+</style>

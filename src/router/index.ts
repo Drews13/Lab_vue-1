@@ -20,13 +20,14 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/404NotFound.vue'), 
-  }  
+    component: () => import('@/views/NotFoundPage.vue'), 
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  linkActiveClass: 'header-component__router-link--active'
 });
 
 export default router;
