@@ -17,7 +17,8 @@
     "lorem-ipsum": "^2.0.4",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
-    "vue-property-decorator": "^9.1.2"
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -36,7 +37,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "lint-staged": "^9.5.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
