@@ -39,22 +39,24 @@ export default class FooterComponentIcons extends Vue {
 </script>
 
 <style lang='scss' scoped>
-  .footer-component__icons {
-    margin: 40px 0;
+  .footer-component {
+    &__icons {
+      margin: 40px 0;
+    }
   
-    &-list {
+    &__icons-list {
       margin: 0;
       padding: 0;
     }
 
-    &-list-items {
+    &__icons-list-items {
       display: inline-block;
       list-style-type: none;
       width: 40px;
       margin: 0 10px;
     }
 
-    &-link {
+    &__icons-link {
         &:hover,
         &:focus {
           opacity: 0.7;
