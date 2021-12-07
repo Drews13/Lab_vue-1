@@ -1,4 +1,4 @@
-<template>
+<template>  
   <HeaderComponent/>
   <div class="app-content">
     <router-view></router-view>
@@ -10,6 +10,7 @@
 import { Options, Vue } from 'vue-class-component';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+import AlertComponent from '@/components/AlertComponent.vue';
 import '@/assets/normalize.css';
 import '@/assets/main-styles.scss';
 import '@/assets/colors.scss';
@@ -17,7 +18,8 @@ import '@/assets/colors.scss';
 @Options({
   components: {
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AlertComponent
   }
 })
 export default class App extends Vue {
@@ -27,6 +29,6 @@ export default class App extends Vue {
 
 <style lang='scss'>
   .app-content {
-    margin-left: 30px;
+    margin: 0 30px;
   }
 </style>
