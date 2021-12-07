@@ -11,6 +11,8 @@ import { Options, Vue } from 'vue-class-component';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
+import ErrorBoundary from '@/components/ErrorBoundary.vue';
+
 import '@/assets/normalize.css';
 import '@/assets/main-styles.scss';
 import '@/assets/colors.scss';
@@ -19,7 +21,8 @@ import '@/assets/colors.scss';
   components: {
     HeaderComponent,
     FooterComponent,
-    AlertComponent
+    AlertComponent,
+    ErrorBoundary
   }
 })
 export default class App extends Vue {
