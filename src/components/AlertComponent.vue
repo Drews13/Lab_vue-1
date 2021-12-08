@@ -1,11 +1,11 @@
 <template>
   <div :class="['alert-component', 
   { 'alert-component-success': isAlertSuccessStyle, 'alert-component-error': isAlertErrorStyle  }]">
-    <slot></slot>
+    {{ message }}
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { Vue, Options } from 'vue-class-component';
 
 @Options({
@@ -18,6 +18,10 @@ import { Vue, Options } from 'vue-class-component';
       type: Boolean,
       default: false
     },
+    message: {
+      type: String,
+      default: ''
+    }
   }  
 })
 export default class AlertComponent extends Vue {
@@ -38,11 +42,15 @@ export default class AlertComponent extends Vue {
     height: 20px;
   }
 
+  @mixin alertColor($color) {
+    background: $color;
+  }
+
   .alert-component-success {
-    background: $color-green-translucent;
+    @include alertColor($color-green-translucent);
   }
 
   .alert-component-error {
-    background: $color-red-translucent;
+    @include alertColor($color-red-translucent);
   }
 </style>

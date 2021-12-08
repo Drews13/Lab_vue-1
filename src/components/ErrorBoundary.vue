@@ -1,12 +1,8 @@
 <template>
   <div>
     <slot></slot>
-    <AlertComponent v-if="err" :isAlertErrorStyle="true">
-      Some Error
-    </AlertComponent>
-    <AlertComponent v-else :isAlertSuccessStyle="true">
-      OK
-    </AlertComponent>
+    <AlertComponent v-if="err" :isAlertErrorStyle="true" :message="err.message"/>
+    <AlertComponent v-else :isAlertSuccessStyle="true" message="OK"/>
   </div>
 </template>
 
