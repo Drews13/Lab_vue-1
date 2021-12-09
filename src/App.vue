@@ -15,7 +15,6 @@ import ErrorBoundary from '@/components/ErrorBoundary.vue';
 
 import '@/assets/normalize.css';
 import '@/assets/main-styles.scss';
-import '@/assets/colors.scss';
 
 @Options({
   components: {
@@ -29,9 +28,3 @@ export default class App extends Vue {
   
 }
 </script>
-
-<style lang='scss'>
-  .app-content {
-    margin: 0 30px;
-  }
-</style>

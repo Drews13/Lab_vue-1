@@ -42,10 +42,6 @@ export default class AlertComponent extends Vue {
     height: 20px;
   }
 
-  @mixin alertColor($color) {
-    background: $color;
-  }
-
   .alert-component-success {
     @include alertColor($color-green-translucent);
   }
