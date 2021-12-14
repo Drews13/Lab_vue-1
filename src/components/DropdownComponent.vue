@@ -7,7 +7,7 @@
         <router-link 
         class="header-component__dropdown__router-link"
         :to="{name: 'categoryPage', params:{id: category.id}}">
-          <CardComponent :category="category"/>
+          {{category.name}}
         </router-link>
       </li>
     </ul>

@@ -1,8 +1,12 @@
 <template>
-  <div class="header-component__dropdown__card-component">
-    <img class="header-component__dropdown__card-component__image"
-    :src="`/images/categoriesLogos/${category.image}`">
-    <h3>{{category.name}}</h3>
+  <div class="card-component">
+    <router-link
+    class="card-component__router-link"
+    :to="{name: 'categoryPage', params:{id: category.id}}">
+      <img class="card-component__image"
+      :src="`/images/categoriesLogos/${category.image}`">
+      <h3>{{category.name}}</h3>
+    </router-link>
   </div>
 </template>
 
@@ -24,26 +28,34 @@ export default class CardComponent extends Vue {
 </script>
 
 <style lang="scss">
-  .header-component {
-    &__dropdown {
-      &__card-component {
-        color: $color-white;
-        background: $color-black;
-        border: 5px solid $color-white;
-        border-bottom: 10px solid $color-white;
-        border-radius: 20px;
-        
-        &__image {
-          width: 120px;
-          height: 120px;
-        }
+  .card-component {
+    margin: 0px 10px 20px 10px;
+    background: $color-black;
+    border: 5px solid $color-white;
+    border-bottom: 10px solid $color-white;
+    border-radius: 20px;
+    width: 1fr;
 
-        &:hover,
-        &:focus {
-          border-color: $color-orange;
-          color: $color-orange;
-        }
+    &__image {
+      width: 200px;
+      height: 200px;
+    }
+
+    &__router-link {
+      padding: 1.5rem 2rem;
+      text-decoration: none;
+      display: inline-block;
+      color: $color-white;
+
+      &:hover,
+      &:focus {
+        color: $color-orange;
       }
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $color-orange;
     }
   }
 </style>
