@@ -18,9 +18,19 @@ const routes = [
     component: () => import('@/views/AboutPage.vue'), 
   },
   {
+    path: '/categories',
+    name: 'categoriesPage',
+    component: () => import('@/views/CategoriesPage.vue'),
+  },
+  {
+    path: '/category/:id',
+    name: 'categoryPage',
+    component: () => import('@/views/CategoryPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/NotFoundPage.vue'), 
+    component: () => import('@/views/NotFoundPage.vue'),
   }
 ];
 

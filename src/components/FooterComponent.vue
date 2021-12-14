@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import FooterComponentIcons from '@/components/FooterComponentIcons.vue';
 
