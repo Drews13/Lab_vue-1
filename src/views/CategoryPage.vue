@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="category-page">
     <h2>{{category.name}}</h2>
-    <h3>{{category.description}}</h3>
+    <h3 class="category-page__description">{{category.description}}</h3>
   </div>
 </template>
 
@@ -22,6 +22,10 @@ export default class CategoryPage extends Vue {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .category-page {
+    &__description {
+      @include bottomBorder(3px, $color-grey)
+    }
+  }
 </style>

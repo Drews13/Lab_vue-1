@@ -14,17 +14,20 @@
     {
       "id": 1,
       "name": "PC",
-      "description": "Some PC description"
+      "description": "Some PC description",
+      "image": "PCLogo.png"
     },
     {
       "id": 2,
       "name": "XBox",
-      "description": "Some XBox description"
+      "description": "Some XBox description",
+      "image": "XBoxLogo.png"
     },
     {
       "id": 3,
       "name": "PS",
-      "description": "Some PS description"
+      "description": "Some PS description",
+      "image": "PSLogo.png"
     }
   ],
   "products": [

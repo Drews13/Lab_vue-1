@@ -61,6 +61,7 @@ export default class HeaderComponent extends Vue {
     }
   
     &__logo {
+      margin-left: 10px;
       padding: 1.25rem;
       text-decoration: none;
       float: left;

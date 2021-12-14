@@ -1,5 +1,6 @@
 <template>
   <div class="categories-page">
+    <h2 class="categories-page__title">Categories</h2>
     <ul class="categories-page__items-list">
       <li class="categories-page__items"
       v-for="category in categories"
@@ -7,7 +8,7 @@
         <router-link
         class="categories-page__router-link"
         :to="{name: 'categoryPage', params:{id: category.id}}">
-          <h2>{{category.name}}</h2>
+          <CardComponent :category="category"/>
         </router-link>
       </li>
     </ul>
@@ -15,10 +16,16 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 import sourseData from '../../db.json';
 import { ICategory } from '@/interfaces/ICategory';
+import CardComponent from '@/components/CardComponent.vue';
 
+@Options({
+  components: {
+    CardComponent
+  }
+})
 export default class CategoriesPage extends Vue {
   categories: ICategory[] = sourseData.categories
 }
@@ -26,12 +33,17 @@ export default class CategoriesPage extends Vue {
 
 <style lang="scss" scoped>
   .categories-page {
+    &__title {
+      @include bottomBorder(3px, $color-grey)
+    }
+
     &__items-list {
       margin: 0;
       padding: 0;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       text-align: center;
+      background: $color-white;
     }
 
     &__items {
@@ -42,7 +54,6 @@ export default class CategoriesPage extends Vue {
       padding: 1.5rem 2rem;
       text-decoration: none;
       display: inline-block;
-      margin-right: 20px;
       color: $color-black;
 
       &:hover,

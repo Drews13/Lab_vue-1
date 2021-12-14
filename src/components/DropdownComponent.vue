@@ -7,7 +7,7 @@
         <router-link 
         class="header-component__dropdown__router-link"
         :to="{name: 'categoryPage', params:{id: category.id}}">
-          {{category.name}}
+          <CardComponent :category="category"/>
         </router-link>
       </li>
     </ul>
@@ -15,10 +15,16 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 import sourseData from '../../db.json';
 import { ICategory } from '@/interfaces/ICategory';
+import CardComponent from '@/components/CardComponent.vue'
 
+@Options({
+  components: {
+    CardComponent
+  }
+})
 export default class DropdownComponent extends Vue {
   categories: ICategory[] = sourseData.categories
 }
@@ -27,6 +33,7 @@ export default class DropdownComponent extends Vue {
 <style lang="scss" scoped>
   .header-component {
     &__dropdown {
+      margin: 0px 30px;
       color: $color-white;
       text-align: left;
       font-weight: normal;
@@ -47,7 +54,6 @@ export default class DropdownComponent extends Vue {
         padding: 1.5rem 2rem;
         text-decoration: none;
         display: inline-block;
-        margin-right: 20px;
         color: $color-white;
 
         &:hover,
