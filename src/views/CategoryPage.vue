@@ -9,8 +9,6 @@
 import { Vue, Options } from 'vue-class-component';
 import sourseData from '../../db.json';
 
-@Options({
-})
 export default class CategoryPage extends Vue {
   get categoryId() {
     return parseInt(this.$route.params.id as string, 10)
