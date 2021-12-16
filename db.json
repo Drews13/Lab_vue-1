@@ -10,13 +10,27 @@
       "sex": "MALE"
     }
   ],
-  "demo-categories": [
+  "categories": [
     {
-      "title": "in dolore voluptate",
-      "description": "Dolor reprehenderit eu mollit consequat minim est proident amet id aute nostrud dolore. Mollit irure amet proident officia anim ad eu elit. Proident laborum enim sunt excepteur pariatur quis.",
-      "createdAt": "1636182462043",
-      "updatedAt": "1636182462043",
-      "id": 1
+      "id": 1,
+      "name": "PC",
+      "description": "Some PC description",
+      "image": "PCLogo.png"
+    },
+    {
+      "id": 2,
+      "name": "XBox",
+      "description": "Some XBox description",
+      "image": "XBoxLogo.png"
+    },
+    {
+      "id": 3,
+      "name": "PS",
+      "description": "Some PS description",
+      "image": "PSLogo.png"
     }
+  ],
+  "products": [
+    
   ]
 }

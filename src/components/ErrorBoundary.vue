@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import AlertComponent from '@/components/AlertComponent.vue';
 

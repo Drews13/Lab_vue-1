@@ -1,7 +1,7 @@
 <template>
-  <div class="home-page">
-    <h1 class="home-page__title">Home</h1>
-    <SectionComponent title="Categories">
+  <div class="categories-page">
+    <h2 class="categories-page__title">Categories</h2>
+    <SectionComponent>
       <div
       v-for="category in categories"
       :key="category.id">
@@ -20,17 +20,17 @@ import SectionComponent from '@/components/SectionComponet.vue';
 
 @Options({
   components: {
-    SectionComponent,
-    CardComponent
+    CardComponent,
+    SectionComponent
   }
 })
-export default class HomePage extends Vue {
+export default class CategoriesPage extends Vue {
   categories: ICategory[] = sourseData.categories
 }
 </script>
 
-<style lang="scss">
-  .home-page {
+<style lang="scss" scoped>
+  .categories-page {
     &__title {
       @include bottomBorder(3px, $color-grey)
     }
