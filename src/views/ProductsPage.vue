@@ -3,7 +3,7 @@
     <h2 class="products-page__title">Products</h2>
     <SectionComponent>
       <div
-      v-for="product in products"
+      v-for="product in sortedProducts"
       :key="product.id">
         <ProductCardComponent :product="product"/>
       </div>
@@ -28,6 +28,18 @@ import ProductCardComponent from '@/components/ProductCardComponent.vue';
 })
 export default class ProductsPage extends Vue {
   products: IProduct[] = sourseData.products
+
+  get sortedProducts() {
+    return this.products.sort((a, b) => {
+      if (a.creationDate < b.creationDate) {
+        return 1;
+      }
+      if (a.creationDate > b.creationDate) {
+        return -1;
+      }
+      return 0;
+    });
+  }
 }
 </script>
 

@@ -57,6 +57,7 @@ export default class ProductCardComponent extends Vue {
     }
 
     &__front {
+      color: $color-white;
       backface-visibility: hidden;
       transition: 1s;
 
@@ -70,14 +71,10 @@ export default class ProductCardComponent extends Vue {
         margin-right: 5px;
         float: right;
       }
-
-      &:hover,
-      &:focus {
-        border-color: $color-orange;
-      }
     }
 
     &__back {
+      border-color: $color-orange;
       transform: rotateY(180deg);
       backface-visibility: hidden;
       transition: 1s;
@@ -87,7 +84,7 @@ export default class ProductCardComponent extends Vue {
       &__router-link {
         text-decoration: none;
         display: inline-block;
-        color: $color-white;
+        color: $color-orange;
         position: relative;
       }
 
@@ -98,11 +95,15 @@ export default class ProductCardComponent extends Vue {
       }
 
       &__button {
+        border-radius: 10px;
         width: 50%;
         margin: auto;
         padding: 9px 10px;
         height: 40px;
         background: $color-white;
+        &:hover {
+          background: $color-orange;
+        }
       }
     }
 
