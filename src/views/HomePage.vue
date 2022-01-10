@@ -15,6 +15,9 @@
         <ProductCardComponent :product="product"/>
       </div>
     </SectionComponent>
+    <SectionComponent>
+      <InputComponent type="text" text="Some txt"/>
+    </SectionComponent>
   </div>
 </template>
 
@@ -26,12 +29,14 @@ import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
+import InputComponent from '@/components/InputComponent.vue';
 
 @Options({
   components: {
     SectionComponent,
     CardComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    InputComponent
   }
 })
 export default class HomePage extends Vue {
