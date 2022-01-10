@@ -31,6 +31,77 @@
     }
   ],
   "products": [
-    
+    {
+      "id": 1,
+      "categoryId": 1,
+      "name": "Overwatch",
+      "shortDescription": "Some Owerwatch short descrpition",
+      "detailedDescription": "Some Owerwatch detailed descrpition",
+      "image": "Owerwatch.png",
+      "rating": 5,
+      "genre": "Shooter",
+      "price": 29.99,
+      "creationDate": "2021-09-09"
+    },
+    {
+      "id": 2,
+      "categoryId": 2,
+      "name": "FIFA21",
+      "shortDescription": "Some FIFA21 short descrpition",
+      "detailedDescription": "Some FIFA21 detailed descrpition",
+      "image": "FIFA21.png",
+      "rating": 5,
+      "genre": "Sports Simulator",
+      "price": 59.99,
+      "creationDate": "2020-12-18"
+    },
+    {
+      "id": 3,
+      "categoryId": 3,
+      "name": "Dying Light 2 Stay Human",
+      "shortDescription": "Some Dying Light 2 Stay Human short descrpition",
+      "detailedDescription": "Some Dying Light 2 Stay Human detailed descrpition",
+      "image": "DyingLight2.png",
+      "rating": 5,
+      "genre": "Survival Horror",
+      "price": 59.99,
+      "creationDate": "2021-09-25"
+    },
+    {
+      "id": 4,
+      "categoryId": 1,
+      "name": "The Elder Scrolls V: Skyrim",
+      "shortDescription": "Some The Elder Scrolls V: Skyrim short descrpition",
+      "detailedDescription": "Some The Elder Scrolls V: Skyrim detailed descrpition",
+      "image": "Skyrim.png",
+      "rating": 5,
+      "genre": "Fantasy",
+      "price": 19.99,
+      "creationDate": "2021-06-25"
+    },
+    {
+      "id": 5,
+      "categoryId": 2,
+      "name": "TheWitcher 3",
+      "shortDescription": "The Witcher 3 short descrpition",
+      "detailedDescription": "The Witcher 3 detailed descrpition",
+      "image": "TheWitcher3.png",
+      "rating": 5,
+      "genre": "Action/RPG",
+      "price": 39.99,
+      "creationDate": "2021-02-10"
+    },
+    {
+      "id": 6,
+      "categoryId": 3,
+      "name": "Battlefield 2042",
+      "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
+      "detailedDescription": "Some Battlefield 2042 Stay Human detailed descrpition",
+      "image": "Battlefield2042.png", 
+      "rating": 5,
+      "genre": "Shooter",
+      "price": 69.99,
+      "creationDate": "2021-06-28"
+    }
   ]
 }

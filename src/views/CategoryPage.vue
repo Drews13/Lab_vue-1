@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component';
+import { Vue } from 'vue-class-component';
 import sourseData from '../../db.json';
 
 export default class CategoryPage extends Vue {
