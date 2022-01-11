@@ -1,6 +1,7 @@
 <template>
   <div class="home-page">
     <h1 class="home-page__title">Home</h1>
+    <SearchSectionComponent/>
     <SectionComponent title="Categories">
       <div
       v-for="category in categories"
@@ -15,9 +16,6 @@
         <ProductCardComponent :product="product"/>
       </div>
     </SectionComponent>
-    <SectionComponent>
-      <InputComponent type="text" text="Some txt"/>
-    </SectionComponent>
   </div>
 </template>
 
@@ -29,14 +27,14 @@ import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
-import InputComponent from '@/components/InputComponent.vue';
+import SearchSectionComponent from '@/components/SearchSectionComponent.vue';
 
 @Options({
   components: {
     SectionComponent,
     CardComponent,
     ProductCardComponent,
-    InputComponent
+    SearchSectionComponent
   }
 })
 export default class HomePage extends Vue {

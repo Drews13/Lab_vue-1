@@ -1,7 +1,10 @@
 <template>
   <div class="input-component">
-    <input class="input-component__input" :type="type" :placeholder="text" :value="value"
-    @input="value = $event.target.value">
+    <input class="input-component__input" 
+    :type="type" 
+    :placeholder="text" 
+    v-model="value" 
+    @input="updateSearch">
     <img class="input-component__image" src="/images/icons/Cross.png" @click="clearValue">
   </div>
 </template>
@@ -27,6 +30,11 @@ export default class InputComponent extends Vue {
 
   clearValue() {
     this.value = '';
+    this.updateSearch();
+  }
+
+  updateSearch() {
+    this.$emit('update', this.value);
   }
 }
 </script>
@@ -35,12 +43,20 @@ export default class InputComponent extends Vue {
   .input-component {
     position: relative;
     &__input {
+      color: $color-white;
+      background: $color-transparent;
+      border: 0;
+      @include bottomBorder(1px, $color-white);
       position: absolute;
       left: 0%;
       top: 0%;
       width: 100%;
       height: 70px;
-      font-size: 18px;
+      font-size: 27px;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     &__image {
