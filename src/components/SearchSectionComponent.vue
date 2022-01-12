@@ -1,7 +1,7 @@
 <template>
   <div class="search-section-component">
     <InputComponent type="text" text="Search..." @update="updateSearchResults"/>
-    <div class="search-section-component__results" v-if="searchResults.length"> 
+    <div class="search-section-component__results"> 
       <SectionComponent>
         <div v-for="product in searchResults"
         :key="product.id">
@@ -29,7 +29,7 @@ import ProductCardComponent from '@/components/ProductCardComponent.vue';
 })
 export default class SearchSectionComponent extends Vue {
   products: IProduct[] = sourseData.products;
-  searchResults: IProduct[] = [];
+  searchResults: IProduct[] = sourseData.products;
 
   get sortedProducts() {
     return this.products.sort((a, b) => {
@@ -47,7 +47,6 @@ export default class SearchSectionComponent extends Vue {
     this.searchResults = this.sortedProducts.filter(
       (product) => product.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
     )
-    if (!value.length) this.searchResults = [];
   }
 }
 </script>
