@@ -4,7 +4,8 @@
     class="card-component__router-link"
     :to="{name: 'categoryPage', params:{id: category.id}}">
       <img class="card-component__image"
-      :src="`/images/categoriesLogos/${category.image}`">
+      :src="`/images/categoriesLogos/${category.image}`"
+      @error="defaultImage">
       <h3>{{category.name}}</h3>
     </router-link>
   </div>
@@ -23,7 +24,9 @@ import { ICategory } from '@/interfaces/ICategory';
   }
 })
 export default class CardComponent extends Vue {
-  
+  defaultImage(e) {
+    e.target.src = '/images/notFound/notFound3.png';
+  }
 }
 </script>
 

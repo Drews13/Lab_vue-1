@@ -6,7 +6,7 @@
       v-for="item in items"
       :key="item.reference">
         <a class = "footer-component__icons-link" :href="item.reference">
-          <img :src="item.image"/>
+          <img :src="item.image" @error="defaultImage"/>
         </a>
       </li>
     </ul>
@@ -35,6 +35,10 @@ export default class FooterComponentIcons extends Vue {
       image: 'https://img.icons8.com/ios-filled/50/ffffff/ea-sports.png'
     }
   ]
+
+  defaultImage(e) {
+    e.target.src = '/images/notFound/notFound2.png'
+  }
 }
 </script>
 
