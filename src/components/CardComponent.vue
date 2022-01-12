@@ -42,7 +42,8 @@ export default class CardComponent extends Vue {
     }
 
     &__router-link {
-      padding: 1.5rem 2rem;
+      width: 100%;
+      padding: 1.5rem 0;
       text-decoration: none;
       display: inline-block;
       color: $color-white;

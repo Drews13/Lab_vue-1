@@ -24,6 +24,7 @@ export default class SectionComponent extends Vue {
 
 <style lang="scss">
   .section-component {
+    border-radius: 15px;
     padding: 10px 10px 100px 10px;
     margin-bottom: 20px;
     background: $color-black-translusent;

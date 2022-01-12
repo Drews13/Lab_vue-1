@@ -18,7 +18,7 @@
 import { Vue, Options } from 'vue-class-component';
 import sourseData from '../../db.json';
 import { ICategory } from '@/interfaces/ICategory';
-import CardComponent from '@/components/CardComponent.vue'
+import CardComponent from '@/components/CardComponent.vue';
 
 @Options({
   components: {
