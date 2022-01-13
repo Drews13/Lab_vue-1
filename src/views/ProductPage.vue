@@ -11,36 +11,36 @@
       <button class="main-info__add-to-cart-btn">Add to Cart</button>
     </div>
     <div class="details">
-      <table class="table">
-        <div class="table__tr">
-          <tr class="table__tr__title">Description</tr>
-          <tr class="table__tr__info">{{product.detailedDescription}}</tr>
+      <div class="table">
+        <div class="table__cell">
+          <div class="table__cell__title">Description</div>
+          <div class="table__cell__info">{{product.detailedDescription}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">Publisher</tr>
-          <tr class="table__tr__info">{{product.publisher}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">Publisher</div>
+          <div class="table__cell__info">{{product.publisher}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">Edition</tr>
-          <tr class="table__tr__info">{{product.edition}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">Edition</div>
+          <div class="table__cell__info">{{product.edition}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">Release date</tr>
-          <tr class="table__tr__info">{{product.releaseDate}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">Release date</div>
+          <div class="table__cell__info">{{product.releaseDate}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">Announcement Date</tr>
-          <tr class="table__tr__info">{{product.announcementDate}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">Announcement Date</div>
+          <div class="table__cell__info">{{product.announcementDate}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">Tags</tr>
-          <tr class="table__tr__info">{{product.tags}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">Tags</div>
+          <div class="table__cell__info">{{product.tags}}</div>
         </div>
-        <div class="table__tr">
-          <tr class="table__tr__title">System Requirements</tr>
-          <tr class="table__tr__info">{{product.systemRequirements}}</tr>
+        <div class="table__cell">
+          <div class="table__cell__title">System Requirements</div>
+          <div class="table__cell__info">{{product.systemRequirements}}</div>
         </div>
-      </table>
+      </div>
     </div>
   </div>
 </template>
@@ -69,6 +69,8 @@ export default class ProductPage extends Vue {
     padding: 60px 150px 20px;
 
     &__image {
+    height: 500px;
+    width: 500px;
     border: 5px solid $color-grey;
     border-radius: 10px;
   }
@@ -104,12 +106,11 @@ export default class ProductPage extends Vue {
   }
 
   .details {
-    padding-top: 5px;
+    padding: 5px 0;
   }
 
   .table {
-
-    &__tr{
+    &__cell {
       padding: 10px 20px;
       border: 1px solid $color-grey;
       width: calc(100% - 40px);
