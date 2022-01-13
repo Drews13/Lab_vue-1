@@ -2,7 +2,8 @@
   <div class="product-card-component">
     <div class="front">
       <img class="front__image"
-      :src="`/images/productsImages/${product.image}`">
+      :src="`/images/productsImages/${product.image}`"
+      @error="defaultImage">
       <h3>{{product.name}}</h3>
       <h4>Rating: {{product.rating}}/5</h4>
       <h4>Genre: {{product.genre}}</h4>
@@ -32,7 +33,9 @@ import { IProduct } from '@/interfaces/IProduct';
   }
 })
 export default class ProductCardComponent extends Vue {
-  
+  defaultImage(e) {
+    e.target.src = '/images/notFound/notFound1.png';
+  }
 }
 </script>
 

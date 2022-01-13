@@ -1,6 +1,6 @@
 <template>
   <div class="search-section-component">
-    <InputComponent type="text" text="Search..." @update="updateSearchResults"/>
+    <InputComponent type="text" text="Search..." @update="onSearchChanged"/>
     <div class="search-section-component__results"> 
       <SectionComponent>
         <div v-for="product in searchResults"
@@ -19,6 +19,7 @@ import sourseData from '../../db.json';
 import { IProduct } from '@/interfaces/IProduct';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
+import debounce from '@/utils/Deboune';
 
 @Options({
   components: {
@@ -30,6 +31,11 @@ import ProductCardComponent from '@/components/ProductCardComponent.vue';
 export default class SearchSectionComponent extends Vue {
   products: IProduct[] = sourseData.products;
   searchResults: IProduct[] = sourseData.products;
+  debounceFunction!: (...args: any) => void;
+
+  created() {
+    this.debounceFunction = debounce(this.updateSearchResults, 300);
+  }
 
   get sortedProducts() {
     return this.products.sort((a, b) => {
@@ -42,11 +48,15 @@ export default class SearchSectionComponent extends Vue {
       return 0;
     });
   }
-
+ 
+  onSearchChanged(value) {
+    this.debounceFunction(value);
+  }
+  
   updateSearchResults(value) {
     this.searchResults = this.sortedProducts.filter(
       (product) => product.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-    )
+    );
   }
 }
 </script>
