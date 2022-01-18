@@ -42,8 +42,8 @@ export default class InputComponent extends Vue {
 <style lang="scss">
   .input-component {
     height: 70px;
-
     position: relative;
+    
     &__input {
       color: $color-white;
       background: $color-transparent;
