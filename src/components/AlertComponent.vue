@@ -31,15 +31,13 @@ export default class AlertComponent extends Vue {
 
 <style lang="scss" scoped>
   .alert-component {
-    position: fixed;
-    top: 65%;
-    margin-left: 50%;
     padding: 10px;
     border-radius: 10px;
     text-align: center;
     width: 480px;
     left: -240px;
     height: 20px;
+    color: $color-white;
   }
 
   .alert-component-success {

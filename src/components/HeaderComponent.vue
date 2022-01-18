@@ -18,20 +18,55 @@
         </div>
     </router-link>
     <router-link class="header-component__router-link" :to="{name: 'aboutPage'}">About</router-link>
+    <div class="authorization-container">
+      <div class="authorization-container__btn" @click="showSignIn">Sing In</div>
+      <div class="authorization-container__btn" @click="showSignUp">Sing Up</div>
     </div>
+  </div>
+  <teleport to="#modals">
+    <ModalComponent v-model:show="signInVisible">
+      <SignInComponent @updateVisibility="hideSignIn"/>
+    </ModalComponent>
+    <ModalComponent v-model:show="signUpVisible">
+      <SignUpComponent @updateVisibility="hideSignUp"/>
+    </ModalComponent>
+  </teleport>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import DropdownComponent from '@/components/DropdownComponent.vue';
+import ModalComponent from '@/components/ModalComponent.vue';
+import SignInComponent from '@/components/SignInComponent.vue';
+import SignUpComponent from '@/components/SignUpComponent.vue';
 
 @Options({
   components: {
-    DropdownComponent
+    DropdownComponent,
+    ModalComponent,
+    SignInComponent,
+    SignUpComponent
   }
 })
 export default class HeaderComponent extends Vue {
+  signInVisible = false;
+  signUpVisible = false;
 
+  showSignIn() {
+    this.signInVisible = true;
+  }
+
+  showSignUp() {
+    this.signUpVisible = true;
+  }
+
+  hideSignIn() {
+    this.signInVisible = false;
+  }
+
+  hideSignUp() {
+    this.signUpVisible = false;
+  }
 }
 </script>
 
@@ -86,6 +121,24 @@ export default class HeaderComponent extends Vue {
       top: 4rem;
       background-color: $color-black-translusent;
       width: 100%;
+    }
+  }
+
+  .authorization-container {
+    border-left: 1px solid $color-authorization-border;
+    display: inline-block;
+    height: 4rem;
+    &__btn {
+      padding: 1.5rem 2rem;
+      display: inline-block;
+      margin-right: 20px;
+      color: $color-white;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        color: $color-orange;
+      }
     }
   }
 </style>

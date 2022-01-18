@@ -41,6 +41,8 @@ export default class InputComponent extends Vue {
 
 <style lang="scss">
   .input-component {
+    height: 70px;
+
     position: relative;
     &__input {
       color: $color-white;
@@ -50,7 +52,7 @@ export default class InputComponent extends Vue {
       position: absolute;
       left: 0%;
       top: 0%;
-      width: 100%;
+      width: calc(100% - 3px);
       height: 70px;
       font-size: 27px;
 
@@ -65,6 +67,7 @@ export default class InputComponent extends Vue {
       right: 0%;
       height: 20px;
       width: 20px;
+      cursor: pointer;
     }
   }
 </style>
