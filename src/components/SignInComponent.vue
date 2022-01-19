@@ -21,6 +21,8 @@
 import { Vue, Options } from 'vue-class-component';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
+import checkEmail from '@/utils/EmailValidation';
+import checkPassword from '@/utils/PasswordValidation';
 
 @Options({
   components: {
@@ -54,13 +56,13 @@ export default class SignInComponent extends Vue {
   checkForm() {
     this.showAlert = true;
     this.alertMessage = 'Success!';
-    if (!this.checkEmail()) {
+    if (!checkEmail(this.email)) {
       this.error = true;
       this.alertMessage = 'Wrong E-Mail!';
       return false;
     }
 
-    if (!this.checkPassword()) {
+    if (!checkPassword(this.password)) {
       this.error = true;
       this.alertMessage = 'Password cannot be less then 5 characters!';
       return false;
@@ -82,15 +84,6 @@ export default class SignInComponent extends Vue {
       this.$emit('updateVisibility', false);
     }, 1000);
     return true;
-  }
-
-  checkEmail() {
-    const regExp = /^.+@.+\..+$/;
-    return this.email.search(regExp) !== -1
-  }
-
-  checkPassword() {
-    return this.password.length > 4;
   }
 
   checkCoincidence() {
