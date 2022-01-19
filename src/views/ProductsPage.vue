@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import sourseData from '../../db.json';
 import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
@@ -27,7 +26,14 @@ import ProductCardComponent from '@/components/ProductCardComponent.vue';
   }
 })
 export default class ProductsPage extends Vue {
-  products: IProduct[] = sourseData.products
+  products: IProduct[] = [];
+
+  async mounted() {
+    await fetch('http://localhost:3000/products')
+      .then((res) => res.json())
+      .then((data) => { this.products = data })
+      .catch((err) => console.log(err.message))
+  }
 
   get sortedProducts() {
     return this.products.sort((a, b) => {

@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import sourseData from '../../db.json';
 import { ICategory } from '@/interfaces/ICategory';
 import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
@@ -38,8 +37,20 @@ import SearchSectionComponent from '@/components/SearchSectionComponent.vue';
   }
 })
 export default class HomePage extends Vue {
-  categories: ICategory[] = sourseData.categories
-  products: IProduct[] = sourseData.products
+  categories: ICategory[] = [];
+  products: IProduct[] = [];
+
+  async mounted() {
+    await fetch('http://localhost:3000/products')
+      .then((res) => res.json())
+      .then((data) => { this.products = data })
+      .catch((err) => console.log(err.message));
+
+    await fetch('http://localhost:3000/categories')
+      .then((res) => res.json())
+      .then((data) => { this.categories = data })
+      .catch((err) => console.log(err.message));
+  }
 
   get sortedProducts() {
     return this.products.sort((a, b) => {

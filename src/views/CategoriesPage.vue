@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import sourseData from '../../db.json';
 import { ICategory } from '@/interfaces/ICategory';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
@@ -25,7 +24,14 @@ import SectionComponent from '@/components/SectionComponet.vue';
   }
 })
 export default class CategoriesPage extends Vue {
-  categories: ICategory[] = sourseData.categories
+  categories: ICategory[] = [];
+
+  async mounted() {
+    await fetch('http://localhost:3000/categories')
+      .then((res) => res.json())
+      .then((data) => { this.categories = data })
+      .catch((err) => console.log(err.message))
+  }
 }
 </script>
 

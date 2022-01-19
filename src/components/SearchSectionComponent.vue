@@ -29,9 +29,19 @@ import debounce from '@/utils/Deboune';
   }
 })
 export default class SearchSectionComponent extends Vue {
-  products: IProduct[] = sourseData.products;
-  searchResults: IProduct[] = sourseData.products;
   debounceFunction!: (...args: any) => void;
+  products: IProduct[] = [];
+  searchResults: IProduct[] = [];
+
+  async mounted() {
+    await fetch('http://localhost:3000/products')
+      .then((res) => res.json())
+      .then((data) => { 
+        this.products = data;
+        this.searchResults = data;
+      })
+      .catch((err) => console.log(err.message));
+  }
 
   created() {
     this.debounceFunction = debounce(this.updateSearchResults, 300);

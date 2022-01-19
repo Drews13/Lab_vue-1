@@ -8,6 +8,11 @@
       "last_name": "Marley",
       "password": "232323",
       "sex": "MALE"
+    },
+    {
+      "email": "fd@fd.fd",
+      "password": "fffff",
+      "id": 2
     }
   ],
   "categories": [
@@ -133,7 +138,7 @@
       "announcementDate": "2021-06-09",
       "tags": "#battlefield2042 #electronicarts",
       "systemRequirements": "Memory: 8GB RAM",
-      "image": "Battlefield2042.png", 
+      "image": "Battlefield2042.png",
       "rating": 5,
       "genre": "Shooter",
       "price": 69.99,
