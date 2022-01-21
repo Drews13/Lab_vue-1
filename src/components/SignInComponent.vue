@@ -109,7 +109,6 @@ export default class SignInComponent extends Vue {
 </script>
 
 <style lang="scss">
-
   .field {
     width: 63%;
     padding: 0 18.5%;
