@@ -109,9 +109,6 @@ export default class SignInComponent extends Vue {
 </script>
 
 <style lang="scss">
-  .sign-in-component {
-    color: white;
-  }
 
   .field {
     width: 63%;
