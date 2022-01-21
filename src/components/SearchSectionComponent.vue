@@ -15,7 +15,6 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import InputComponent from '@/components/InputComponent.vue';
-import sourseData from '../../db.json';
 import { IProduct } from '@/interfaces/IProduct';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';

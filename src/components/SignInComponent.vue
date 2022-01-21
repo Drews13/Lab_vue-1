@@ -1,5 +1,5 @@
 <template>
-  <div class="sing-in-component">
+  <div class="sign-in-component">
     <AlertComponent 
     v-if="showAlert"
     :isAlertSuccessStyle="!error" 
@@ -12,7 +12,7 @@
       <div class="field">
         <InputComponent type="password" text="Password" @update="onPasswordChanged"/>
       </div>
-      <button type="button" class="submit" @click="checkForm">Sing in</button>
+      <button type="button" class="submit" @click="logIn">Sing in</button>
     </form>
   </div>
 </template>
@@ -31,7 +31,7 @@ import checkPassword from '@/utils/PasswordValidation';
   }
 })
 export default class SignInComponent extends Vue {
-  users:Array<any> = [];
+  users: Array<any> = [];
   email = '';
   password = '';
   alertMessage = '';
@@ -96,10 +96,23 @@ export default class SignInComponent extends Vue {
     } 
     return 0;
   }
+
+  logIn() {
+    if (!this.checkForm()) {
+      return false;
+    }
+    this.$store.commit('userLogin');
+    this.$store.commit('storeUserData', { email: this.email, password: this.password });
+    return true;
+  }
 }
 </script>
 
 <style lang="scss">
+  .sign-in-component {
+    color: white;
+  }
+
   .field {
     width: 63%;
     padding: 0 18.5%;
