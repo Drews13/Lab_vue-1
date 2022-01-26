@@ -13,6 +13,11 @@
       "email": "fd@fd.fd",
       "password": "fffff",
       "id": 2
+    },
+    {
+      "email": "qw@qw.qw",
+      "password": "qqqqq",
+      "id": 3
     }
   ],
   "categories": [

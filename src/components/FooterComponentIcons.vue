@@ -20,19 +20,19 @@ export default class FooterComponentIcons extends Vue {
   items = [
     {
       reference: 'https://www.valvesoftware.com/ru/',
-      image: 'https://img.icons8.com/ios-filled/50/ffffff/steam.png'
+      image: '/images/footerIcons/steam.png'
     },
     {
       reference: 'https://www.rockstargames.com/',
-      image: 'https://img.icons8.com/ios-filled/50/ffffff/rockstar-games.png'
+      image: '/images/footerIcons/rockstar-games.png'
     },
     {
       reference: 'https://www.blizzard.com/ru-ru/',
-      image: 'https://img.icons8.com/ios/50/ffffff/battle-net.png'
+      image: '/images/footerIcons/battle-net.png'
     },
     {
       reference: 'https://www.ea.com/sports',
-      image: 'https://img.icons8.com/ios-filled/50/ffffff/ea-sports.png'
+      image: '/images/footerIcons/ea-sports.png'
     }
   ]
 
@@ -61,10 +61,10 @@ export default class FooterComponentIcons extends Vue {
     }
 
     &__icons-link {
-        &:hover,
-        &:focus {
-          opacity: 0.7;
-        }
+      &:hover,
+      &:focus {
+        opacity: 0.7;
       }
+    }
   }
 </style>

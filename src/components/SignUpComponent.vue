@@ -15,7 +15,7 @@
       <div class="field">
         <InputComponent type="password" text="Repeat Password" @update="onRepeatPasswordChanged"/>
       </div>
-      <button type="button" class="submit" @click="checkForm">Sing up</button>
+      <button type="button" class="submit" @click="authorize">Sing up</button>
     </form>
   </div>
 </template>
@@ -61,7 +61,7 @@ export default class SignUpComponent extends Vue {
     this.repeatedPassword = value;
   }
 
-  async checkForm() {
+  checkForm() {
     this.showAlert = true;
     this.alertMessage = 'Success!';
     if (!checkEmail(this.email)) {
@@ -88,17 +88,7 @@ export default class SignUpComponent extends Vue {
       return false;
     }
     
-    await fetch('http://localhost:3000/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: this.email,
-        password: this.password
-      })
-    });
-    this.error = false;
+    this.error = false;    
     setTimeout(() => {
       this.$emit('updateVisibility', false);
     }, 1000);
@@ -114,6 +104,27 @@ export default class SignUpComponent extends Vue {
       return true;
     } 
     return false;
+  }
+
+  async authorize() {
+    if (!this.checkForm()) {
+      return false;
+    }
+
+    await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: this.email,
+        password: this.password
+      })
+    });
+
+    this.$store.commit('userLogin');
+    this.$store.commit('storeUserData', { email: this.email, password: this.password });
+    return true;
   }
 }
 </script>

@@ -19,8 +19,21 @@
     </router-link>
     <router-link class="header-component__router-link" :to="{name: 'aboutPage'}">About</router-link>
     <div class="authorization-container">
-      <div class="authorization-container__btn" @click="showSignIn">Sing In</div>
-      <div class="authorization-container__btn" @click="showSignUp">Sing Up</div>
+      <div 
+      v-if="!this.$store.state.isAuth" 
+      class="authorization-container__btn" 
+      @click="showSignIn">
+        Sing In
+      </div>
+      <div 
+      v-if="!this.$store.state.isAuth" 
+      class="authorization-container__btn" 
+      @click="showSignUp">
+        Sing Up
+      </div>
+      <div v-if="this.$store.state.isAuth" class="authorization-container__btn" @click="logOut">
+        Logout
+      </div>
     </div>
   </div>
   <teleport to="#modals">
@@ -66,6 +79,11 @@ export default class HeaderComponent extends Vue {
 
   hideSignUp() {
     this.signUpVisible = false;
+  }
+
+  logOut() {
+    this.$store.commit('userLogout');
+    this.$store.commit('clearUserData');
   }
 }
 </script>
