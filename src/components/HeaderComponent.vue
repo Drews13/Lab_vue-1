@@ -31,9 +31,19 @@
       @click="showSignUp">
         Sing Up
       </div>
-      <div v-if="this.$store.state.isAuth" class="authorization-container__btn" @click="logOut">
+      <router-link 
+      v-if="this.$store.state.isAuth"
+      class="header-component__router-link"
+      :to="{ name: 'userPage' }">
+        {{ this.$store.state.userData.login }}
+      </router-link>
+      <router-link
+      v-if="this.$store.state.isAuth"
+      class="header-component__router-link"
+      :to="{ name: 'homePage' }"
+      @click="logOut">
         Logout
-      </div>
+      </router-link>
     </div>
   </div>
   <teleport to="#modals">

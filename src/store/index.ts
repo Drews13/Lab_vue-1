@@ -7,10 +7,7 @@ const store = createStore<IState>({
 
   state: {
     isAuth: false,
-    userData: {
-      email: '',
-      password: '',
-    },
+    userData: null,
     warnings: [],
     errors: [],
   },
@@ -29,8 +26,7 @@ const store = createStore<IState>({
     },
 
     clearUserData(state) {
-      state.userData.email = '';
-      state.userData.password = '';
+      state.userData = null;
     },
 
     storeWarning(state, data) {

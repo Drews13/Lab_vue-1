@@ -22,7 +22,7 @@ import { Vue, Options } from 'vue-class-component';
       type: String,
       default: ''
     }
-  }  
+  }
 })
 export default class AlertComponent extends Vue {
 
@@ -35,7 +35,8 @@ export default class AlertComponent extends Vue {
     border-radius: 10px;
     text-align: center;
     width: 480px;
-    left: -240px;
+    margin-top: 10px;
+    margin-left: calc(50% - 240px);
     height: 20px;
     color: $color-white;
   }
