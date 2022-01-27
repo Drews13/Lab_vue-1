@@ -44,34 +44,24 @@ export default class ChangePasswordComponent extends Vue {
   }
 
   submit() {
-    setTimeout(() => {
-      this.$emit('updateVisibility');
-    }, 1000);
+    this.$emit('updateVisibility');
 
     if (!this.checkCoincidence()) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Wrong current password!', null);
-      }, 1000);
+      this.$emit('alert', true, 'Wrong current password!', null);
       return false;
     }
 
     if (!checkPassword(this.newPassword)) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Password cannot be less then 5 characters!', null);
-      }, 1000);
+      this.$emit('alert', true, 'Password cannot be less then 5 characters!', null);
       return false;
     }
 
     if (!checkPasswordsEquality(this.newPassword, this.repeatedPassword)) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Passwords do not match!', null);
-      }, 1000);
+      this.$emit('alert', true, 'Passwords do not match!', null);
       return true;
     }
     
-    setTimeout(() => {
-      this.$emit('alert', false, 'Success', this.newPassword);
-    }, 1000);
+    this.$emit('alert', false, 'Success', this.newPassword);
     return true;
   }
 
