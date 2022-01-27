@@ -20,26 +20,26 @@
     <router-link class="header-component__router-link" :to="{name: 'aboutPage'}">About</router-link>
     <div class="authorization-container">
       <div 
-      v-if="!this.$store.state.isAuth" 
-      class="authorization-container__btn" 
+      v-if="!this.$store.state.isAuth"
+      class="authorization-container__btn"
       @click="showSignIn">
         Sing In
       </div>
       <div 
       v-if="!this.$store.state.isAuth" 
-      class="authorization-container__btn" 
+      class="authorization-container__btn"
       @click="showSignUp">
         Sing Up
       </div>
       <router-link 
       v-if="this.$store.state.isAuth"
-      class="header-component__router-link"
+      class="authorization-container__btn"
       :to="{ name: 'userPage' }">
         {{ this.$store.state.userData.login }}
       </router-link>
       <router-link
       v-if="this.$store.state.isAuth"
-      class="header-component__router-link"
+      class="authorization-container__btn"
       :to="{ name: 'homePage' }"
       @click="logOut">
         Logout
@@ -157,6 +157,7 @@ export default class HeaderComponent extends Vue {
     display: inline-block;
     height: 4rem;
     &__btn {
+      text-decoration: none;
       padding: 1.5rem 2rem;
       display: inline-block;
       margin-right: 20px;
