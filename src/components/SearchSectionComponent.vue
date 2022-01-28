@@ -35,11 +35,9 @@ export default class SearchSectionComponent extends Vue {
   async mounted() {
     await fetch('http://localhost:3000/products')
       .then((res) => res.json())
-      .then((data) => { 
-        this.products = data;
-        this.searchResults = data;
-      })
+      .then((data) => { this.products = data; })
       .catch((err) => console.log(err.message));
+    this.searchResults = this.sortedProducts;
   }
 
   created() {

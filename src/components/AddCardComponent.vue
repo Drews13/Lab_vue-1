@@ -45,28 +45,20 @@ export default class AddCardComponent extends Vue {
   }
 
   submit() {
-    setTimeout(() => {
-      this.$emit('updateVisibility');
-    }, 1000);
+    this.$emit('updateVisibility');
 
     if (!checkNumber(this.number)) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Wrong Number', null);
-      }, 1000);
+      this.$emit('alert', true, 'Wrong Number', null);
       return false;
     }
 
     if (!checkExpires(this.expires)) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Wrong Expires', null);
-      }, 1000);
+      this.$emit('alert', true, 'Wrong Expires', null);
       return false;
     }
 
     if (!checkCvv(this.cvv)) {
-      setTimeout(() => {
-        this.$emit('alert', true, 'Wrong Cvv', null);
-      }, 1000);
+      this.$emit('alert', true, 'Wrong Cvv', null);
       return true;
     }
 
@@ -75,9 +67,7 @@ export default class AddCardComponent extends Vue {
       expires: this.expires,
       cvv: this.cvv
     }
-    setTimeout(() => {
-      this.$emit('alert', false, 'Success', paymentCardObj);
-    }, 1000);
+    this.$emit('alert', false, 'Success', paymentCardObj);
 
     return true;
   }
