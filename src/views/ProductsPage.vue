@@ -46,6 +46,9 @@
       </div>
     </SectionComponent>
   </div>
+  <teleport to="#loader">
+    <LoaderComponent v-if="showLoader"/>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -54,12 +57,14 @@ import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
+import LoaderComponent from '@/components/LoaderComponent.vue';
 
 @Options({
   components: {
     CardComponent,
     SectionComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    LoaderComponent
   }
 })
 export default class ProductsPage extends Vue {
@@ -69,6 +74,7 @@ export default class ProductsPage extends Vue {
   genreOption = '';
   ratingOption = '';
   publisherOption = '';
+  showLoader = false;
 
   async mounted() {
     await fetch('http://localhost:3000/products')
@@ -144,11 +150,15 @@ export default class ProductsPage extends Vue {
   }
 
   onOptionChanged() {
-    this.filteredProducts = this.sortedProducts.filter(
-      (product) => (product.genre === this.genreOption || this.genreOption === '')
-        && (product.rating === Number(this.ratingOption) || this.ratingOption === '')
-        && (product.publisher === this.publisherOption || this.publisherOption === '')
-    );
+    this.showLoader = true;
+    setTimeout(() => {
+      this.showLoader = false;
+      this.filteredProducts = this.sortedProducts.filter(
+        (product) => (product.genre === this.genreOption || this.genreOption === '')
+          && (product.rating === Number(this.ratingOption) || this.ratingOption === '')
+          && (product.publisher === this.publisherOption || this.publisherOption === '')
+      );
+    }, 1000);
   }
 }
 </script>
