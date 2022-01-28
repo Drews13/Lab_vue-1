@@ -1,9 +1,9 @@
 <template>
   <div class="sign-in-component">
-    <AlertComponent 
+    <AlertComponent
     v-if="showAlert"
-    :isAlertSuccessStyle="!error" 
-    :isAlertErrorStyle="error" 
+    :isAlertSuccessStyle="!error"
+    :isAlertErrorStyle="error"
     :message="alertMessage"/>
     <form>
       <div class="field">
@@ -21,6 +21,7 @@
 import { Vue, Options } from 'vue-class-component';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
+import { IUser } from '@/interfaces/IUser';
 import checkEmail from '@/utils/EmailValidation';
 import checkPassword from '@/utils/PasswordValidation';
 
@@ -31,7 +32,8 @@ import checkPassword from '@/utils/PasswordValidation';
   }
 })
 export default class SignInComponent extends Vue {
-  users: Array<any> = [];
+  users: IUser[] = [];
+  authorizedUser: IUser | null = null;
   email = '';
   password = '';
   alertMessage = '';
@@ -56,6 +58,7 @@ export default class SignInComponent extends Vue {
   checkForm() {
     this.showAlert = true;
     this.alertMessage = 'Success!';
+
     if (!checkEmail(this.email)) {
       this.error = true;
       this.alertMessage = 'Wrong E-Mail!';
@@ -83,6 +86,7 @@ export default class SignInComponent extends Vue {
     setTimeout(() => {
       this.$emit('updateVisibility', false);
     }, 1000);
+
     return true;
   }
 
@@ -90,6 +94,7 @@ export default class SignInComponent extends Vue {
     const userFound = this.users.find((user) => user.email === this.email);
     if (userFound) {
       if (userFound.password === this.password) {
+        this.authorizedUser = userFound;
         return 2;
       }
       return 1;
@@ -102,7 +107,7 @@ export default class SignInComponent extends Vue {
       return false;
     }
     this.$store.commit('userLogin');
-    this.$store.commit('storeUserData', { email: this.email, password: this.password });
+    this.$store.commit('storeUserData', this.authorizedUser);
     return true;
   }
 }

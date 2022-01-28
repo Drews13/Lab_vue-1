@@ -1,9 +1,9 @@
 <template>
   <div class="input-component">
-    <input class="input-component__input" 
-    :type="type" 
-    :placeholder="text" 
-    v-model="value" 
+    <input class="input-component__input"
+    :type="type"
+    :placeholder="text"
+    v-model="value"
     @input="updateSearch">
     <img class="input-component__image" src="/images/icons/Cross.png" @click="clearValue">
   </div>
@@ -26,7 +26,7 @@ type InputType = 'text' | 'password';
   }
 })
 export default class InputComponent extends Vue {
-  value = ''
+  value = '';
 
   clearValue() {
     this.value = '';
@@ -43,7 +43,7 @@ export default class InputComponent extends Vue {
   .input-component {
     height: 70px;
     position: relative;
-    
+
     &__input {
       color: $color-white;
       background: $color-transparent;

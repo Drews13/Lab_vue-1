@@ -1,4 +1,4 @@
 export default function checkEmail(email) {
   const regExp = /^.+@.+\..+$/;
-  return email.search(regExp) !== -1
+  return email.search(regExp) !== -1;
 }

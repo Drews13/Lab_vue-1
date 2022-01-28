@@ -10,14 +10,21 @@
       "sex": "MALE"
     },
     {
+      "login": "MyUserName",
+      "firstName": "MyName",
+      "lastName": "MySurname",
       "email": "fd@fd.fd",
-      "password": "fffff",
+      "password": null,
+      "sex": "Male",
+      "age": "20",
+      "address": "My Address",
+      "shippingAddress": "My Shipping Address",
+      "paymentCard": {
+        "number": "1111 1111 1111 1111",
+        "expires": "02-2025",
+        "cvv": "111"
+      },
       "id": 2
-    },
-    {
-      "email": "qw@qw.qw",
-      "password": "qqqqq",
-      "id": 3
     }
   ],
   "categories": [
