@@ -10,21 +10,35 @@
       "sex": "MALE"
     },
     {
-      "id": 2,
       "login": "MyUserName",
       "firstName": "MyName",
       "lastName": "MySurname",
       "email": "fd@fd.fd",
       "password": "ddddd",
       "sex": "Male",
-      "age": "20",
+      "age": "21",
       "address": "My Address",
       "shippingAddress": "My Shipping Address",
       "paymentCard": {
         "number": "1111 1111 1111 1111",
         "expires": "02-2025",
         "cvv": "111"
-      }
+      },
+      "id": 2
+    },
+    {
+      "login": "qqq",
+      "role": "USER",
+      "firstName": "",
+      "lastName": "",
+      "email": "qq@qq.qq",
+      "password": "qqqqq",
+      "sex": "",
+      "age": "0",
+      "address": "",
+      "shippingAddress": "",
+      "paymentCard": null,
+      "id": 3
     }
   ],
   "categories": [

@@ -81,66 +81,32 @@ export default class ProductsPage extends Vue {
   get sortedProducts() {
     switch (this.sortOption) {
       case 'PriceAsc': 
-        return this.products.sort(this.sortByPriceAsc);
+        return this.products.sort(this.sortByAsc('price'));
       case 'PriceDesc': 
-        return this.products.sort(this.sortByPriceDesc);
+        return this.products.sort(this.sortByDesc('price'));
       case 'RatingAsc': 
-        return this.products.sort(this.sortByRatingAsc);
+        return this.products.sort(this.sortByAsc('rating'));
       case 'RatingDesc': 
-        return this.products.sort(this.sortByRatingDesc);
+        return this.products.sort(this.sortByDesc('rating'));
       default:
-        return this.products.sort(this.sortByDate);
+        return this.products.sort(this.sortByDesc('creationDate'));
     }
   }
 
-  sortByDate(a, b) {
-    if (a.creationDate < b.creationDate) {
-      return 1;
+  sortByAsc(field) {
+    return (a, b) => {
+      if (a[field] > b[field]) return 1;
+      if (a[field] < b[field]) return -1;
+      return 0;
     }
-    if (a.creationDate > b.creationDate) {
-      return -1;
-    }
-    return 0;
   }
 
-  sortByPriceAsc(a, b) {
-    if (a.price > b.price) {
-      return 1;
+  sortByDesc(field) {
+    return (a, b) => {
+      if (a[field] < b[field]) return 1;
+      if (a[field] > b[field]) return -1;
+      return 0;
     }
-    if (a.price < b.price) {
-      return -1;
-    }
-    return 0;
-  }
-
-  sortByPriceDesc(a, b) {
-    if (a.price < b.price) {
-      return 1;
-    }
-    if (a.price > b.price) {
-      return -1;
-    }
-    return 0;
-  }
-
-  sortByRatingAsc(a, b) {
-    if (a.rating > b.rating) {
-      return 1;
-    }
-    if (a.rating < b.rating) {
-      return -1;
-    }
-    return 0;
-  }
-
-  sortByRatingDesc(a, b) {
-    if (a.rating < b.rating) {
-      return 1;
-    }
-    if (a.rating > b.rating) {
-      return -1;
-    }
-    return 0;
   }
 
   onOptionChanged() {

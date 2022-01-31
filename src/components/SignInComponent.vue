@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapMutations } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
 import { IUser } from '@/interfaces/IUser';
@@ -29,6 +30,12 @@ import checkPassword from '@/utils/PasswordValidation';
   components: {
     InputComponent,
     AlertComponent
+  },
+  methods: {
+    ...mapMutations([
+      'userLogin',
+      'storeUserData'
+    ])
   }
 })
 export default class SignInComponent extends Vue {
@@ -39,6 +46,8 @@ export default class SignInComponent extends Vue {
   alertMessage = '';
   error = false;
   showAlert = false;
+  userLogin?: any;
+  storeUserData?: any;
 
   async mounted() {
     await fetch('http://localhost:3000/users')
@@ -106,8 +115,8 @@ export default class SignInComponent extends Vue {
     if (!this.checkForm()) {
       return false;
     }
-    this.$store.commit('userLogin');
-    this.$store.commit('storeUserData', this.authorizedUser);
+    this.userLogin();
+    this.storeUserData(this.authorizedUser);
     return true;
   }
 }

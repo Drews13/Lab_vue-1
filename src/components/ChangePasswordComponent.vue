@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import checkPassword from '@/utils/PasswordValidation';
 import checkPasswordsEquality from '@/utils/PasswordsEquality';
@@ -24,12 +25,18 @@ import checkPasswordsEquality from '@/utils/PasswordsEquality';
 @Options({
   components: {
     InputComponent
+  },
+  computed: {
+    ...mapState([
+      'userData'
+    ])
   }
 })
 export default class ChangePasswordComponent extends Vue {
   currentPassword = '';
   newPassword = '';
   repeatedPassword = '';
+  userData: any;
 
   onCurrentPasswordChanged(value) {
     this.currentPassword = value;
@@ -66,7 +73,7 @@ export default class ChangePasswordComponent extends Vue {
   }
 
   checkCoincidence() {
-    return this.currentPassword === this.$store.state.userData?.password;
+    return this.currentPassword === this.userData.password;
   }
 }
 </script>

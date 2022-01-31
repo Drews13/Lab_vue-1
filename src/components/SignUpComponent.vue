@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapMutations } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
 import { IUser } from '@/interfaces/IUser';
@@ -37,6 +38,12 @@ import checkPasswordsEquality from '@/utils/PasswordsEquality';
   components: {
     InputComponent,
     AlertComponent
+  },
+  methods: {
+    ...mapMutations([
+      'userLogin',
+      'storeUserData'
+    ])
   }
 })
 export default class SignUpComponent extends Vue {
@@ -48,6 +55,8 @@ export default class SignUpComponent extends Vue {
   alertMessage = '';
   error = false;
   showAlert = false;
+  userLogin: any;
+  storeUserData: any;
 
   async mounted() {
     await fetch('http://localhost:3000/users')
@@ -148,9 +157,8 @@ export default class SignUpComponent extends Vue {
       body: JSON.stringify(authorizedUser)
     });
 
-    authorizedUser.id = 4;
-    this.$store.commit('userLogin');
-    this.$store.commit('storeUserData', authorizedUser);
+    this.userLogin();
+    this.storeUserData(authorizedUser);
     return true;
   }
 }

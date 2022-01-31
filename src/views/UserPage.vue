@@ -9,49 +9,49 @@
     <div class="user-page__content">
       <div class="field">
         <h2>Login</h2>
-        <InputComponent type="text" :text="this.login" @update="onLoginChanged"/>
+        <InputComponent type="text" :text="login" @update="onLoginChanged"/>
       </div>
       <div class="field">
         <h2>E-Mail</h2>
-        <InputComponent type="text" :text="this.email" @update="onEmailChanged"/>
+        <InputComponent type="text" :text="email" @update="onEmailChanged"/>
       </div>
       <div class="field">
         <h2>First Name</h2>
-        <InputComponent type="text" :text="this.firstName" @update="onFirstNameChanged"/>
+        <InputComponent type="text" :text="firstName" @update="onFirstNameChanged"/>
       </div>
       <div class="field">
         <h2>Last Name</h2>
-        <InputComponent type="text" :text="this.lastName" @update="onLastNameChanged"/>
+        <InputComponent type="text" :text="lastName" @update="onLastNameChanged"/>
       </div>
       <div class="field">
         <h2>Sex</h2>
-        <InputComponent type="text" :text="this.sex" @update="onSexChanged"/>
+        <InputComponent type="text" :text="sex" @update="onSexChanged"/>
       </div>
       <div class="field">
         <h2>Age</h2>
-        <InputComponent type="text" :text="this.age" @update="onAgeChanged"/>
+        <InputComponent type="text" :text="age" @update="onAgeChanged"/>
       </div>
       <div class="field">
         <h2>Address</h2>
-        <InputComponent type="text" :text="this.address" @update="onAddressChanged"/>
+        <InputComponent type="text" :text="address" @update="onAddressChanged"/>
       </div>
       <div class="field">
         <h2>Shipping Address</h2>
         <InputComponent
         type="text"
-        :text="this.shippingAddress"
+        :text="shippingAddress"
         @update="onShippingAddressChanged"/>
       </div>
-      <div v-if="this.paymentCard"> 
+      <div v-if="paymentCard"> 
         <div class="field">
           <h2>Payment Card</h2>
-          <InputComponent type="text" :text="this.paymentCard.number" @update="onNumberChanged"/>
+          <InputComponent type="text" :text="paymentCard.number" @update="onNumberChanged"/>
         </div>
         <div class="field">
-          <InputComponent type="text" :text="this.paymentCard.expires" @update="onExpiresChanged"/>
+          <InputComponent type="text" :text="paymentCard.expires" @update="onExpiresChanged"/>
         </div>
         <div class="field">
-          <InputComponent type="text" :text="this.paymentCard.cvv" @update="onCvvChanged"/>
+          <InputComponent type="text" :text="paymentCard.cvv" @update="onCvvChanged"/>
         </div>
       </div>
       <button v-else type="button" class="payment-card-btn" @click="showAddCard">
@@ -75,6 +75,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState, mapMutations } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
@@ -95,6 +96,16 @@ import checkCvv from '@/utils/CardCvvValidation';
     ModalComponent,
     AddCardComponent,
     ChangePasswordComponent
+  },
+  methods: {
+    ...mapMutations([
+      'storeUserData'
+    ])
+  },
+  computed: {
+    ...mapState([
+      'userData'
+    ])
   }
 })
 export default class UserPage extends Vue {
@@ -107,13 +118,15 @@ export default class UserPage extends Vue {
   age: string | undefined;
   address: string | undefined;
   shippingAddress: string | undefined;
-  paymentCard: IPaymentCard | null | undefined;
+  paymentCard: IPaymentCard | null | undefined; 
   users: IUser[] = [];
   showAlert = false;
   alertMessage = '';
   error = false;
   changePasswordVisible = false;
   addCardVisible = false;
+  userData: any;
+  storeUserData: any;
 
   created() {
     this.initialize();
@@ -127,16 +140,16 @@ export default class UserPage extends Vue {
   }
 
   initialize() {
-    this.login = this.$store.state.userData?.login;
-    this.firstName = this.$store.state.userData?.firstName;
-    this.lastName = this.$store.state.userData?.lastName;
-    this.email = this.$store.state.userData?.email;
-    this.password = this.$store.state.userData?.password;
-    this.sex = this.$store.state.userData?.sex;
-    this.age = this.$store.state.userData?.age;
-    this.address = this.$store.state.userData?.address;
-    this.shippingAddress = this.$store.state.userData?.shippingAddress;
-    this.paymentCard = this.$store.state.userData?.paymentCard;
+    this.login = this.userData.login;
+    this.firstName = this.userData.firstName;
+    this.lastName = this.userData.lastName;
+    this.email = this.userData.email;
+    this.password = this.userData.password;
+    this.sex = this.userData.sex;
+    this.age = this.userData.age;
+    this.address = this.userData.address;
+    this.shippingAddress = this.userData.shippingAddress;
+    this.paymentCard = this.userData.paymentCard;
   }
 
   onLoginChanged(value) {
@@ -241,10 +254,10 @@ export default class UserPage extends Vue {
       address: this.address,
       shippingAddress: this.shippingAddress,
       paymentCard: this.paymentCard,
-      id: this.$store.state.userData?.id
+      id: this.userData.id
     }
 
-    await fetch(`http://localhost:3000/users/${this.$store.state.userData?.id}`, {
+    await fetch(`http://localhost:3000/users/${this.userData.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -252,7 +265,7 @@ export default class UserPage extends Vue {
       body: JSON.stringify(userData)
     });
 
-    this.$store.commit('storeUserData', userData);
+    this.storeUserData(userData);
     return true;
   }
 
@@ -276,7 +289,7 @@ export default class UserPage extends Vue {
       return false;
     }
 
-    if (this.email !== this.$store.state.userData?.email && this.checkCoincidence()) {
+    if (this.email !== this.userData.email && this.checkCoincidence()) {
       this.error = true;
       this.alertMessage = 'Such user already exists!';
       return false;
