@@ -23,8 +23,9 @@ import { mapMutations } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
 import { IUser } from '@/interfaces/IUser';
-import checkEmail from '@/utils/EmailValidation';
-import checkPassword from '@/utils/PasswordValidation';
+import Validation from '@/utils/Validation';
+import TextConstants from '@/constants/TextConstants';
+import TimeConstants from '@/constants/TimeConstants';
 
 @Options({
   components: {
@@ -46,37 +47,39 @@ export default class SignInComponent extends Vue {
   alertMessage = '';
   error = false;
   showAlert = false;
-  userLogin?: any;
-  storeUserData?: any;
+  userLogin?: () => void;
+  storeUserData?: (data) => void;
 
   async mounted() {
-    await fetch('http://localhost:3000/users')
+    await fetch(`${TextConstants.connectionStr}/users`)
       .then((res) => res.json())
-      .then((data) => { this.users = data })
+      .then((data) => { 
+        this.users = data 
+      })
       .catch((err) => console.log(err.message));
   }
 
-  onEmailChanged(value) {
+  onEmailChanged(value: string) {
     this.email = value;
   }
 
-  onPasswordChanged(value) {
+  onPasswordChanged(value: string) {
     this.password = value;
   }
 
   checkForm() {
     this.showAlert = true;
-    this.alertMessage = 'Success!';
+    this.alertMessage = TextConstants.successMsg;
 
-    if (!checkEmail(this.email)) {
+    if (!Validation.checkEmail(this.email)) {
       this.error = true;
-      this.alertMessage = 'Wrong E-Mail!';
+      this.alertMessage = TextConstants.wrongEMailMsg;
       return false;
     }
 
-    if (!checkPassword(this.password)) {
+    if (!Validation.checkPassword(this.password)) {
       this.error = true;
-      this.alertMessage = 'Password cannot be less then 5 characters!';
+      this.alertMessage = TextConstants.shortPasswordMsg;
       return false;
     }
 
@@ -84,9 +87,9 @@ export default class SignInComponent extends Vue {
     if (coincidenceResult !== 2) {
       this.error = true;
       if (coincidenceResult === 0) {
-        this.alertMessage = 'No such user!';
+        this.alertMessage = TextConstants.mismatchedEMailMsg;
       } else {
-        this.alertMessage = 'Wrong password!';
+        this.alertMessage = TextConstants.wrongPasswordMsg;
       }
       return false;
     }
@@ -94,7 +97,7 @@ export default class SignInComponent extends Vue {
     this.error = false;
     setTimeout(() => {
       this.$emit('updateVisibility', false);
-    }, 1000);
+    }, TimeConstants.modalCloseTime);
 
     return true;
   }
@@ -115,8 +118,12 @@ export default class SignInComponent extends Vue {
     if (!this.checkForm()) {
       return false;
     }
-    this.userLogin();
-    this.storeUserData(this.authorizedUser);
+    if (this.userLogin) {
+      this.userLogin();
+    }
+    if (this.storeUserData) {
+      this.storeUserData(this.authorizedUser);
+    }
     return true;
   }
 }

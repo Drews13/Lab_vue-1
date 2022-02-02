@@ -18,9 +18,8 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import InputComponent from '@/components/InputComponent.vue';
-import checkNumber from '@/utils/CardNumberValidation';
-import checkExpires from '@/utils/CardExpiresValidation';
-import checkCvv from '@/utils/CardCvvValidation';
+import Validation from '@/utils/Validation';
+import TextConstants from '@/constants/TextConstants';
 
 @Options({
   components: {
@@ -32,33 +31,33 @@ export default class AddCardComponent extends Vue {
   expires = '';
   cvv = '';
 
-  onNumberChanged(value) {
+  onNumberChanged(value: string) {
     this.number = value;
   }
 
-  onExpiresChanged(value) {
+  onExpiresChanged(value: string) {
     this.expires = value;
   }
 
-  onCvvChanged(value) {
+  onCvvChanged(value: string) {
     this.cvv = value;
   }
 
   submit() {
     this.$emit('updateVisibility');
 
-    if (!checkNumber(this.number)) {
-      this.$emit('alert', true, 'Wrong Number', null);
+    if (!Validation.checkNumber(this.number)) {
+      this.$emit('alert', true, TextConstants.wrongCardNumberMsg, null);
       return false;
     }
 
-    if (!checkExpires(this.expires)) {
-      this.$emit('alert', true, 'Wrong Expires', null);
+    if (!Validation.checkExpires(this.expires)) {
+      this.$emit('alert', true, TextConstants.wrongCardExpiresMsg, null);
       return false;
     }
 
-    if (!checkCvv(this.cvv)) {
-      this.$emit('alert', true, 'Wrong Cvv', null);
+    if (!Validation.checkCvv(this.cvv)) {
+      this.$emit('alert', true, TextConstants.wrongCardCvvMsg, null);
       return true;
     }
 
@@ -67,7 +66,7 @@ export default class AddCardComponent extends Vue {
       expires: this.expires,
       cvv: this.cvv
     }
-    this.$emit('alert', false, 'Success', paymentCardObj);
+    this.$emit('alert', false, TextConstants.successMsg, paymentCardObj);
 
     return true;
   }

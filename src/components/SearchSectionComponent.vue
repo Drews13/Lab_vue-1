@@ -19,6 +19,8 @@ import { IProduct } from '@/interfaces/IProduct';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
 import debounce from '@/utils/Deboune';
+import TextConstants from '@/constants/TextConstants';
+import TimeConstants from '@/constants/TimeConstants';
 
 @Options({
   components: {
@@ -33,15 +35,17 @@ export default class SearchSectionComponent extends Vue {
   searchResults: IProduct[] = [];
 
   async mounted() {
-    await fetch('http://localhost:3000/products')
+    await fetch(`${TextConstants.connectionStr}/products`)
       .then((res) => res.json())
-      .then((data) => { this.products = data; })
+      .then((data) => { 
+        this.products = data; 
+      })
       .catch((err) => console.log(err.message));
     this.searchResults = this.sortedProducts;
   }
 
   created() {
-    this.debounceFunction = debounce(this.updateSearchResults, 300);
+    this.debounceFunction = debounce(this.updateSearchResults, TimeConstants.searchDebounceTime);
   }
 
   get sortedProducts() {
@@ -56,11 +60,11 @@ export default class SearchSectionComponent extends Vue {
     });
   }
  
-  onSearchChanged(value) {
+  onSearchChanged(value: string) {
     this.debounceFunction(value);
   }
   
-  updateSearchResults(value) {
+  updateSearchResults(value: string) {
     this.searchResults = this.sortedProducts.filter(
       (product) => product.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
     );

@@ -54,10 +54,10 @@
           <InputComponent type="text" :text="paymentCard.cvv" @update="onCvvChanged"/>
         </div>
       </div>
-      <button v-else type="button" class="payment-card-btn" @click="showAddCard">
+      <button v-else type="button" class="payment-card-btn" @click="updateAddCardVisibility">
         Add Payment Card
       </button>
-      <button type="button" class="password-btn" @click="showChangePassword">
+      <button type="button" class="password-btn" @click="updateChangePasswordVisibility">
         ChangePassword
       </button>
       <button type="button" class="submit" @click="submit">Submit</button>
@@ -65,10 +65,12 @@
   </div>
   <teleport to="#modals">
     <ModalComponent v-model:show="changePasswordVisible">
-      <ChangePasswordComponent @updateVisibility="hideChangePassword" @alert="onPasswordSubmitted"/>
+      <ChangePasswordComponent 
+      @updateVisibility="updateChangePasswordVisibility" 
+      @alert="onPasswordSubmitted"/>
     </ModalComponent>
     <ModalComponent v-model:show="addCardVisible">
-      <AddCardComponent @updateVisibility="hideAddCard" @alert="onCardSubmitted"/>
+      <AddCardComponent @updateVisibility="updateAddCardVisibility" @alert="onCardSubmitted"/>
     </ModalComponent>
   </teleport>
 </template>
@@ -83,11 +85,10 @@ import AddCardComponent from '@/components/AddCardComponent.vue';
 import ChangePasswordComponent from '@/components/ChangePasswordComponent.vue';
 import { IPaymentCard } from '@/interfaces/IPaymentCard';
 import { IUser } from '@/interfaces/IUser';
-import checkLogin from '@/utils/LoginValidation';
-import checkEmail from '@/utils/EmailValidation';
-import checkNumber from '@/utils/CardNumberValidation';
-import checkExpires from '@/utils/CardExpiresValidation';
-import checkCvv from '@/utils/CardCvvValidation';
+import Validation from '@/utils/Validation';
+import TextConstants from '@/constants/TextConstants';
+import RegExprs from '@/constants/RegExprs';
+import TimeConstants from '@/constants/TimeConstants';
 
 @Options({
   components: {
@@ -109,133 +110,135 @@ import checkCvv from '@/utils/CardCvvValidation';
   }
 })
 export default class UserPage extends Vue {
-  login: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string | undefined;
-  password: string | undefined;
-  sex: string | undefined;
-  age: string | undefined;
-  address: string | undefined;
-  shippingAddress: string | undefined;
-  paymentCard: IPaymentCard | null | undefined; 
+  login?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  sex?: string;
+  age?: string;
+  address?: string;
+  shippingAddress?: string;
+  paymentCard?: IPaymentCard | null = {
+    number: '',
+    expires: '',
+    cvv: ''
+  };
+  userData?: IUser;
+  storeUserData?: (data) => void;
   users: IUser[] = [];
   showAlert = false;
   alertMessage = '';
   error = false;
   changePasswordVisible = false;
   addCardVisible = false;
-  userData: any;
-  storeUserData: any;
 
   created() {
     this.initialize();
   }
 
   async mounted() {
-    await fetch('http://localhost:3000/users')
+    await fetch(`${TextConstants.connectionStr}/users`)
       .then((res) => res.json())
-      .then((data) => { this.users = data })
+      .then((data) => { 
+        this.users = data 
+      })
       .catch((err) => console.log(err.message));
   }
 
   initialize() {
-    this.login = this.userData.login;
-    this.firstName = this.userData.firstName;
-    this.lastName = this.userData.lastName;
-    this.email = this.userData.email;
-    this.password = this.userData.password;
-    this.sex = this.userData.sex;
-    this.age = this.userData.age;
-    this.address = this.userData.address;
-    this.shippingAddress = this.userData.shippingAddress;
-    this.paymentCard = this.userData.paymentCard;
+    this.login = this.userData?.login;
+    this.firstName = this.userData?.firstName;
+    this.lastName = this.userData?.lastName;
+    this.email = this.userData?.email;
+    this.password = this.userData?.password;
+    this.sex = this.userData?.sex;
+    this.age = this.userData?.age;
+    this.address = this.userData?.address;
+    this.shippingAddress = this.userData?.shippingAddress;
+    if (this.userData?.paymentCard) {
+      Object.assign(this.paymentCard, this.userData?.paymentCard);
+    } else {
+      this.paymentCard = null;
+    }
   }
 
-  onLoginChanged(value) {
+  onLoginChanged(value: string) {
     this.login = value;
   }
 
-  onEmailChanged(value) {
+  onEmailChanged(value: string) {
     this.email = value;
   }
 
-  onFirstNameChanged(value) {
+  onFirstNameChanged(value: string) {
     this.firstName = value;
   }
 
-  onLastNameChanged(value) {
+  onLastNameChanged(value: string) {
     this.lastName = value;
   }
 
-  onSexChanged(value) {
+  onSexChanged(value: string) {
     this.sex = value;
   }
 
-  onAgeChanged(value) {
+  onAgeChanged(value: string) {
     this.age = value;
   }
 
-  onAddressChanged(value) {
+  onAddressChanged(value: string) {
     this.address = value;
   }
 
-  onShippingAddressChanged(value) {
+  onShippingAddressChanged(value: string) {
     this.shippingAddress = value;
   }
 
-  onNumberChanged(value) {
+  onNumberChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.number = value;
     }
   }
 
-  onExpiresChanged(value) {
+  onExpiresChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.expires = value;
     }
   }
 
-  onCvvChanged(value) {
+  onCvvChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.cvv = value;
     }
   }
 
-  showAddCard() {
-    this.addCardVisible = true;
+  updateAddCardVisibility() {
+    this.addCardVisible = !this.addCardVisible;
   }
 
-  hideAddCard() {
-    this.addCardVisible = false;
-  }
-
-  onCardSubmitted(value, message, obj) {
-    this.error = value;
+  onCardSubmitted(isErr, message, cardObj) {
+    this.error = isErr;
     this.alertMessage = message;
-    this.paymentCard = obj;
+    this.paymentCard = cardObj;
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
   }
 
-  showChangePassword() {
-    this.changePasswordVisible = true;
+  updateChangePasswordVisibility() {
+    this.changePasswordVisible = !this.changePasswordVisible;
   }
 
-  hideChangePassword() {
-    this.changePasswordVisible = false;
-  }
-
-  onPasswordSubmitted(value, message, str) {
-    this.error = value;
+  onPasswordSubmitted(isErr, message, passwordStr) {
+    this.error = isErr;
     this.alertMessage = message;
-    this.password = str;
+    this.password = passwordStr;
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
   }
 
   async submit() {
@@ -254,10 +257,10 @@ export default class UserPage extends Vue {
       address: this.address,
       shippingAddress: this.shippingAddress,
       paymentCard: this.paymentCard,
-      id: this.userData.id
+      id: this.userData?.id
     }
 
-    await fetch(`http://localhost:3000/users/${this.userData.id}`, {
+    await fetch(`${TextConstants.connectionStr}/users/${this.userData?.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -265,58 +268,64 @@ export default class UserPage extends Vue {
       body: JSON.stringify(userData)
     });
 
-    this.storeUserData(userData);
+    if (this.storeUserData) {
+      this.storeUserData(userData);
+    }
     return true;
   }
 
   checkForm() {
     this.showAlert = true;
-    this.alertMessage = 'Success!';
+    this.alertMessage = TextConstants.successMsg;
 
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
 
-    if (!checkLogin(this.login)) {
-      this.error = true;
-      this.alertMessage = 'Wrong Login!';
-      return false;
+    if (this.login) {
+      if (!Validation.checkLogin(this.login)) {
+        this.error = true;
+        this.alertMessage = TextConstants.wrongLoginMsg;
+        return false;
+      }
     }
 
-    if (!checkEmail(this.email)) {
-      this.error = true;
-      this.alertMessage = 'Wrong E-Mail!';
-      return false;
+    if (this.email) {
+      if (!Validation.checkEmail(this.email)) {
+        this.error = true;
+        this.alertMessage = TextConstants.wrongEMailMsg;
+        return false;
+      }
     }
 
-    if (this.email !== this.userData.email && this.checkCoincidence()) {
+    if (this.email !== this.userData?.email && this.checkCoincidence()) {
       this.error = true;
-      this.alertMessage = 'Such user already exists!';
+      this.alertMessage = TextConstants.userExistsMsg;
       return false;
     }
     
     if (!this.checkAge()) {
       this.error = true;
-      this.alertMessage = 'Wrong Age!';
+      this.alertMessage = TextConstants.wrongAgeMsg;
       return false;
     }
 
     if (this.paymentCard) {
-      if (!checkNumber(this.paymentCard.number)) {
+      if (!Validation.checkNumber(this.paymentCard.number)) {
         this.error = true;
-        this.alertMessage = 'Wrong Number!';
+        this.alertMessage = TextConstants.wrongCardNumberMsg;
         return false;
       }
 
-      if (!checkExpires(this.paymentCard.expires)) {
+      if (!Validation.checkExpires(this.paymentCard.expires)) {
         this.error = true;
-        this.alertMessage = 'Wrong Expires!';
+        this.alertMessage = TextConstants.wrongCardExpiresMsg;
         return false;
       }
 
-      if (!checkCvv(this.paymentCard.cvv)) {
+      if (!Validation.checkCvv(this.paymentCard.cvv)) {
         this.error = true;
-        this.alertMessage = 'Wrong CVV!';
+        this.alertMessage = TextConstants.wrongCardCvvMsg;
         return false;
       }
     }
@@ -332,8 +341,7 @@ export default class UserPage extends Vue {
   }
 
   checkAge() {
-    const regExp = /^[1-9]?\d$/;
-    return this.age?.search(regExp) !== -1;
+    return this.age?.search(RegExprs.ageRegEx) !== -1;
   }
 }
 </script>

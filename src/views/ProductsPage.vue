@@ -54,6 +54,13 @@ import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
+import TextConstants from '@/constants/TextConstants';
+
+// eslint-disable-next-line no-shadow
+enum SortType {
+  ASC = 'asc',
+  DESC = 'desc'
+}
 
 @Options({
   components: {
@@ -71,9 +78,11 @@ export default class ProductsPage extends Vue {
   publisherOption = '';
 
   async mounted() {
-    await fetch('http://localhost:3000/products')
+    await fetch(`${TextConstants.connectionStr}/products`)
       .then((res) => res.json())
-      .then((data) => { this.products = data; })
+      .then((data) => { 
+        this.products = data; 
+      })
       .catch((err) => console.log(err.message));
     this.filteredProducts = this.sortedProducts;
   }
@@ -81,30 +90,22 @@ export default class ProductsPage extends Vue {
   get sortedProducts() {
     switch (this.sortOption) {
       case 'PriceAsc': 
-        return this.products.sort(this.sortByAsc('price'));
+        return this.products.sort(this.sortProducts('price', SortType.ASC));
       case 'PriceDesc': 
-        return this.products.sort(this.sortByDesc('price'));
+        return this.products.sort(this.sortProducts('price', SortType.DESC));
       case 'RatingAsc': 
-        return this.products.sort(this.sortByAsc('rating'));
+        return this.products.sort(this.sortProducts('rating', SortType.ASC));
       case 'RatingDesc': 
-        return this.products.sort(this.sortByDesc('rating'));
+        return this.products.sort(this.sortProducts('rating', SortType.DESC));
       default:
-        return this.products.sort(this.sortByDesc('creationDate'));
+        return this.products.sort(this.sortProducts('creationDate', SortType.DESC));
     }
   }
 
-  sortByAsc(field) {
-    return (a, b) => {
-      if (a[field] > b[field]) return 1;
-      if (a[field] < b[field]) return -1;
-      return 0;
-    }
-  }
-
-  sortByDesc(field) {
-    return (a, b) => {
-      if (a[field] < b[field]) return 1;
-      if (a[field] > b[field]) return -1;
+  sortProducts(field: string, type: SortType): (a, b) => number {
+    return (a: IProduct, b: IProduct):number => {
+      if (a[field] > b[field]) return type === SortType.ASC ? 1 : -1;
+      if (a[field] < b[field]) return type === SortType.ASC ? -1 : 1;
       return 0;
     }
   }

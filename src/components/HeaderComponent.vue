@@ -22,13 +22,13 @@
       <div 
       v-if="!isAuth"
       class="authorization-container__btn"
-      @click="showSignIn">
+      @click="updateSignInVisibility">
         Sing In
       </div>
       <div 
       v-if="!isAuth" 
       class="authorization-container__btn"
-      @click="showSignUp">
+      @click="updateSignUpVisibility">
         Sing Up
       </div>
       <router-link 
@@ -48,10 +48,10 @@
   </div>
   <teleport to="#modals">
     <ModalComponent v-model:show="signInVisible">
-      <SignInComponent @updateVisibility="hideSignIn"/>
+      <SignInComponent @updateVisibility="updateSignInVisibility"/>
     </ModalComponent>
     <ModalComponent v-model:show="signUpVisible">
-      <SignUpComponent @updateVisibility="hideSignUp"/>
+      <SignUpComponent @updateVisibility="updateSignUpVisibility"/>
     </ModalComponent>
   </teleport>
 </template>
@@ -63,13 +63,14 @@ import DropdownComponent from '@/components/DropdownComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import SignInComponent from '@/components/SignInComponent.vue';
 import SignUpComponent from '@/components/SignUpComponent.vue';
+import { IUser } from '@/interfaces/IUser';
 
 @Options({
   components: {
     DropdownComponent,
     ModalComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
   },
   methods: {
     ...mapMutations([
@@ -87,30 +88,26 @@ import SignUpComponent from '@/components/SignUpComponent.vue';
 export default class HeaderComponent extends Vue {
   signInVisible = false;
   signUpVisible = false;
-  isAuth: any;
-  userData: any;
-  userLogout: any;
-  clearUserData: any;
+  isAuth?: boolean;
+  userData?: IUser;
+  userLogout?: () => void;
+  clearUserData?: () => void;
 
-  showSignIn() {
-    this.signInVisible = true;
+  updateSignInVisibility() {
+    this.signInVisible = !this.signInVisible;
   }
 
-  showSignUp() {
-    this.signUpVisible = true;
-  }
-
-  hideSignIn() {
-    this.signInVisible = false;
-  }
-
-  hideSignUp() {
-    this.signUpVisible = false;
+  updateSignUpVisibility() {
+    this.signUpVisible = !this.signUpVisible;
   }
 
   logOut() {
-    this.userLogout();
-    this.clearUserData();
+    if (this.userLogout) {
+      this.userLogout();
+    }
+    if (this.clearUserData) {
+      this.clearUserData();
+    }
   }
 }
 </script>
