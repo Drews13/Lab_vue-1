@@ -16,6 +16,7 @@ import { Vue, Options } from 'vue-class-component';
 import { ICategory } from '@/interfaces/ICategory';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
+import TextConstants from '@/constants/TextConstants';
 
 @Options({
   components: {
@@ -27,9 +28,11 @@ export default class CategoriesPage extends Vue {
   categories: ICategory[] = [];
 
   async mounted() {
-    await fetch('http://localhost:3000/categories')
+    await fetch(`${TextConstants.connectionStr}/categories`)
       .then((res) => res.json())
-      .then((data) => { this.categories = data })
+      .then((data) => { 
+        this.categories = data 
+      })
       .catch((err) => console.log(err.message))
   }
 }

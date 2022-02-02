@@ -9,55 +9,55 @@
     <div class="user-page__content">
       <div class="field">
         <h2>Login</h2>
-        <InputComponent type="text" :text="this.login" @update="onLoginChanged"/>
+        <InputComponent type="text" :text="login" @update="onLoginChanged"/>
       </div>
       <div class="field">
         <h2>E-Mail</h2>
-        <InputComponent type="text" :text="this.email" @update="onEmailChanged"/>
+        <InputComponent type="text" :text="email" @update="onEmailChanged"/>
       </div>
       <div class="field">
         <h2>First Name</h2>
-        <InputComponent type="text" :text="this.firstName" @update="onFirstNameChanged"/>
+        <InputComponent type="text" :text="firstName" @update="onFirstNameChanged"/>
       </div>
       <div class="field">
         <h2>Last Name</h2>
-        <InputComponent type="text" :text="this.lastName" @update="onLastNameChanged"/>
+        <InputComponent type="text" :text="lastName" @update="onLastNameChanged"/>
       </div>
       <div class="field">
         <h2>Sex</h2>
-        <InputComponent type="text" :text="this.sex" @update="onSexChanged"/>
+        <InputComponent type="text" :text="sex" @update="onSexChanged"/>
       </div>
       <div class="field">
         <h2>Age</h2>
-        <InputComponent type="text" :text="this.age" @update="onAgeChanged"/>
+        <InputComponent type="text" :text="age" @update="onAgeChanged"/>
       </div>
       <div class="field">
         <h2>Address</h2>
-        <InputComponent type="text" :text="this.address" @update="onAddressChanged"/>
+        <InputComponent type="text" :text="address" @update="onAddressChanged"/>
       </div>
       <div class="field">
         <h2>Shipping Address</h2>
         <InputComponent
         type="text"
-        :text="this.shippingAddress"
+        :text="shippingAddress"
         @update="onShippingAddressChanged"/>
       </div>
-      <div v-if="this.paymentCard"> 
+      <div v-if="paymentCard"> 
         <div class="field">
           <h2>Payment Card</h2>
-          <InputComponent type="text" :text="this.paymentCard.number" @update="onNumberChanged"/>
+          <InputComponent type="text" :text="paymentCard.number" @update="onNumberChanged"/>
         </div>
         <div class="field">
-          <InputComponent type="text" :text="this.paymentCard.expires" @update="onExpiresChanged"/>
+          <InputComponent type="text" :text="paymentCard.expires" @update="onExpiresChanged"/>
         </div>
         <div class="field">
-          <InputComponent type="text" :text="this.paymentCard.cvv" @update="onCvvChanged"/>
+          <InputComponent type="text" :text="paymentCard.cvv" @update="onCvvChanged"/>
         </div>
       </div>
-      <button v-else type="button" class="payment-card-btn" @click="showAddCard">
+      <button v-else type="button" class="payment-card-btn" @click="updateAddCardVisibility">
         Add Payment Card
       </button>
-      <button type="button" class="password-btn" @click="showChangePassword">
+      <button type="button" class="password-btn" @click="updateChangePasswordVisibility">
         ChangePassword
       </button>
       <button type="button" class="submit" @click="submit">Submit</button>
@@ -65,16 +65,19 @@
   </div>
   <teleport to="#modals">
     <ModalComponent v-model:show="changePasswordVisible">
-      <ChangePasswordComponent @updateVisibility="hideChangePassword" @alert="onPasswordSubmitted"/>
+      <ChangePasswordComponent 
+      @updateVisibility="updateChangePasswordVisibility" 
+      @alert="onPasswordSubmitted"/>
     </ModalComponent>
     <ModalComponent v-model:show="addCardVisible">
-      <AddCardComponent @updateVisibility="hideAddCard" @alert="onCardSubmitted"/>
+      <AddCardComponent @updateVisibility="updateAddCardVisibility" @alert="onCardSubmitted"/>
     </ModalComponent>
   </teleport>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState, mapMutations } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
 import AlertComponent from '@/components/AlertComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
@@ -82,11 +85,10 @@ import AddCardComponent from '@/components/AddCardComponent.vue';
 import ChangePasswordComponent from '@/components/ChangePasswordComponent.vue';
 import { IPaymentCard } from '@/interfaces/IPaymentCard';
 import { IUser } from '@/interfaces/IUser';
-import checkLogin from '@/utils/LoginValidation';
-import checkEmail from '@/utils/EmailValidation';
-import checkNumber from '@/utils/CardNumberValidation';
-import checkExpires from '@/utils/CardExpiresValidation';
-import checkCvv from '@/utils/CardCvvValidation';
+import Validation from '@/utils/Validation';
+import TextConstants from '@/constants/TextConstants';
+import RegExprs from '@/constants/RegExprs';
+import TimeConstants from '@/constants/TimeConstants';
 
 @Options({
   components: {
@@ -95,19 +97,35 @@ import checkCvv from '@/utils/CardCvvValidation';
     ModalComponent,
     AddCardComponent,
     ChangePasswordComponent
+  },
+  methods: {
+    ...mapMutations([
+      'storeUserData'
+    ])
+  },
+  computed: {
+    ...mapState([
+      'userData'
+    ])
   }
 })
 export default class UserPage extends Vue {
-  login: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string | undefined;
-  password: string | undefined;
-  sex: string | undefined;
-  age: string | undefined;
-  address: string | undefined;
-  shippingAddress: string | undefined;
-  paymentCard: IPaymentCard | null | undefined;
+  login?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  sex?: string;
+  age?: string;
+  address?: string;
+  shippingAddress?: string;
+  paymentCard?: IPaymentCard | null = {
+    number: '',
+    expires: '',
+    cvv: ''
+  };
+  userData?: IUser;
+  storeUserData?: (data) => void;
   users: IUser[] = [];
   showAlert = false;
   alertMessage = '';
@@ -120,109 +138,107 @@ export default class UserPage extends Vue {
   }
 
   async mounted() {
-    await fetch('http://localhost:3000/users')
+    await fetch(`${TextConstants.connectionStr}/users`)
       .then((res) => res.json())
-      .then((data) => { this.users = data })
+      .then((data) => { 
+        this.users = data 
+      })
       .catch((err) => console.log(err.message));
   }
 
   initialize() {
-    this.login = this.$store.state.userData?.login;
-    this.firstName = this.$store.state.userData?.firstName;
-    this.lastName = this.$store.state.userData?.lastName;
-    this.email = this.$store.state.userData?.email;
-    this.password = this.$store.state.userData?.password;
-    this.sex = this.$store.state.userData?.sex;
-    this.age = this.$store.state.userData?.age;
-    this.address = this.$store.state.userData?.address;
-    this.shippingAddress = this.$store.state.userData?.shippingAddress;
-    this.paymentCard = this.$store.state.userData?.paymentCard;
+    this.login = this.userData?.login;
+    this.firstName = this.userData?.firstName;
+    this.lastName = this.userData?.lastName;
+    this.email = this.userData?.email;
+    this.password = this.userData?.password;
+    this.sex = this.userData?.sex;
+    this.age = this.userData?.age;
+    this.address = this.userData?.address;
+    this.shippingAddress = this.userData?.shippingAddress;
+    if (this.userData?.paymentCard) {
+      Object.assign(this.paymentCard, this.userData?.paymentCard);
+    } else {
+      this.paymentCard = null;
+    }
   }
 
-  onLoginChanged(value) {
+  onLoginChanged(value: string) {
     this.login = value;
   }
 
-  onEmailChanged(value) {
+  onEmailChanged(value: string) {
     this.email = value;
   }
 
-  onFirstNameChanged(value) {
+  onFirstNameChanged(value: string) {
     this.firstName = value;
   }
 
-  onLastNameChanged(value) {
+  onLastNameChanged(value: string) {
     this.lastName = value;
   }
 
-  onSexChanged(value) {
+  onSexChanged(value: string) {
     this.sex = value;
   }
 
-  onAgeChanged(value) {
+  onAgeChanged(value: string) {
     this.age = value;
   }
 
-  onAddressChanged(value) {
+  onAddressChanged(value: string) {
     this.address = value;
   }
 
-  onShippingAddressChanged(value) {
+  onShippingAddressChanged(value: string) {
     this.shippingAddress = value;
   }
 
-  onNumberChanged(value) {
+  onNumberChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.number = value;
     }
   }
 
-  onExpiresChanged(value) {
+  onExpiresChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.expires = value;
     }
   }
 
-  onCvvChanged(value) {
+  onCvvChanged(value: string) {
     if (this.paymentCard) {
       this.paymentCard.cvv = value;
     }
   }
 
-  showAddCard() {
-    this.addCardVisible = true;
+  updateAddCardVisibility() {
+    this.addCardVisible = !this.addCardVisible;
   }
 
-  hideAddCard() {
-    this.addCardVisible = false;
-  }
-
-  onCardSubmitted(value, message, obj) {
-    this.error = value;
+  onCardSubmitted(isErr, message, cardObj) {
+    this.error = isErr;
     this.alertMessage = message;
-    this.paymentCard = obj;
+    this.paymentCard = cardObj;
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
   }
 
-  showChangePassword() {
-    this.changePasswordVisible = true;
+  updateChangePasswordVisibility() {
+    this.changePasswordVisible = !this.changePasswordVisible;
   }
 
-  hideChangePassword() {
-    this.changePasswordVisible = false;
-  }
-
-  onPasswordSubmitted(value, message, str) {
-    this.error = value;
+  onPasswordSubmitted(isErr, message, passwordStr) {
+    this.error = isErr;
     this.alertMessage = message;
-    this.password = str;
+    this.password = passwordStr;
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
   }
 
   async submit() {
@@ -241,10 +257,10 @@ export default class UserPage extends Vue {
       address: this.address,
       shippingAddress: this.shippingAddress,
       paymentCard: this.paymentCard,
-      id: this.$store.state.userData?.id
+      id: this.userData?.id
     }
 
-    await fetch(`http://localhost:3000/users/${this.$store.state.userData?.id}`, {
+    await fetch(`${TextConstants.connectionStr}/users/${this.userData?.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -252,58 +268,64 @@ export default class UserPage extends Vue {
       body: JSON.stringify(userData)
     });
 
-    this.$store.commit('storeUserData', userData);
+    if (this.storeUserData) {
+      this.storeUserData(userData);
+    }
     return true;
   }
 
   checkForm() {
     this.showAlert = true;
-    this.alertMessage = 'Success!';
+    this.alertMessage = TextConstants.successMsg;
 
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000);
+    }, TimeConstants.alertHideTime);
 
-    if (!checkLogin(this.login)) {
-      this.error = true;
-      this.alertMessage = 'Wrong Login!';
-      return false;
+    if (this.login) {
+      if (!Validation.checkLogin(this.login)) {
+        this.error = true;
+        this.alertMessage = TextConstants.wrongLoginMsg;
+        return false;
+      }
     }
 
-    if (!checkEmail(this.email)) {
-      this.error = true;
-      this.alertMessage = 'Wrong E-Mail!';
-      return false;
+    if (this.email) {
+      if (!Validation.checkEmail(this.email)) {
+        this.error = true;
+        this.alertMessage = TextConstants.wrongEMailMsg;
+        return false;
+      }
     }
 
-    if (this.email !== this.$store.state.userData?.email && this.checkCoincidence()) {
+    if (this.email !== this.userData?.email && this.checkCoincidence()) {
       this.error = true;
-      this.alertMessage = 'Such user already exists!';
+      this.alertMessage = TextConstants.userExistsMsg;
       return false;
     }
     
     if (!this.checkAge()) {
       this.error = true;
-      this.alertMessage = 'Wrong Age!';
+      this.alertMessage = TextConstants.wrongAgeMsg;
       return false;
     }
 
     if (this.paymentCard) {
-      if (!checkNumber(this.paymentCard.number)) {
+      if (!Validation.checkNumber(this.paymentCard.number)) {
         this.error = true;
-        this.alertMessage = 'Wrong Number!';
+        this.alertMessage = TextConstants.wrongCardNumberMsg;
         return false;
       }
 
-      if (!checkExpires(this.paymentCard.expires)) {
+      if (!Validation.checkExpires(this.paymentCard.expires)) {
         this.error = true;
-        this.alertMessage = 'Wrong Expires!';
+        this.alertMessage = TextConstants.wrongCardExpiresMsg;
         return false;
       }
 
-      if (!checkCvv(this.paymentCard.cvv)) {
+      if (!Validation.checkCvv(this.paymentCard.cvv)) {
         this.error = true;
-        this.alertMessage = 'Wrong CVV!';
+        this.alertMessage = TextConstants.wrongCardCvvMsg;
         return false;
       }
     }
@@ -319,8 +341,7 @@ export default class UserPage extends Vue {
   }
 
   checkAge() {
-    const regExp = /^[1-9]?\d$/;
-    return this.age?.search(regExp) !== -1;
+    return this.age?.search(RegExprs.ageRegEx) !== -1;
   }
 }
 </script>

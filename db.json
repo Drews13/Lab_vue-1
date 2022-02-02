@@ -14,9 +14,9 @@
       "firstName": "MyName",
       "lastName": "MySurname",
       "email": "fd@fd.fd",
-      "password": null,
+      "password": "fffff",
       "sex": "Male",
-      "age": "20",
+      "age": "21",
       "address": "My Address",
       "shippingAddress": "My Shipping Address",
       "paymentCard": {
@@ -25,6 +25,23 @@
         "cvv": "111"
       },
       "id": 2
+    },
+    {
+      "login": "qqq",
+      "firstName": "Q Name",
+      "lastName": "Q Surname",
+      "email": "qq@qq.qq",
+      "password": "qqqqq",
+      "sex": "Female",
+      "age": "15",
+      "address": "Q Address",
+      "shippingAddress": "Q Shipping Address",
+      "paymentCard": {
+        "number": "1234 1234 1234 1234",
+        "expires": "01-2025",
+        "cvv": "123"
+      },
+      "id": 3
     }
   ],
   "categories": [

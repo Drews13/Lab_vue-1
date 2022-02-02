@@ -27,6 +27,7 @@ import CardComponent from '@/components/CardComponent.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
 import SearchSectionComponent from '@/components/SearchSectionComponent.vue';
+import TextConstants from '@/constants/TextConstants';
 
 @Options({
   components: {
@@ -41,14 +42,18 @@ export default class HomePage extends Vue {
   products: IProduct[] = [];
 
   async mounted() {
-    await fetch('http://localhost:3000/products')
+    await fetch(`${TextConstants.connectionStr}/products`)
       .then((res) => res.json())
-      .then((data) => { this.products = data })
+      .then((data) => { 
+        this.products = data 
+      })
       .catch((err) => console.log(err.message));
 
-    await fetch('http://localhost:3000/categories')
+    await fetch(`${TextConstants.connectionStr}/categories`)
       .then((res) => res.json())
-      .then((data) => { this.categories = data })
+      .then((data) => { 
+        this.categories = data 
+      })
       .catch((err) => console.log(err.message));
   }
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="product-page">
+  <div class="product-page" v-if="products.length">
     <img class="product-page__image" 
-    :src="`/images/productsImages/${product.image}`" 
+    :src="`/images/productsImages/${product.image}`"
     @error="defaultImage">
     <div class="main-info">
       <h2 class="main-info__name">{{product.name}}</h2>
@@ -47,15 +47,27 @@
 
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import sourseData from '../../db.json';
+import TextConstants from '@/constants/TextConstants';
+import { IProduct } from '@/interfaces/IProduct';
 
 export default class ProductPage extends Vue {
+  products: IProduct[] = [];
+
+  async mounted() {
+    await fetch(`${TextConstants.connectionStr}/products`)
+      .then((res) => res.json())
+      .then((data) => { 
+        this.products = data; 
+      })
+      .catch((err) => console.log(err.message));
+  } 
+
   get productId() {
-    return parseInt(this.$route.params.id as string, 10)
+    return parseInt(this.$route.params.id as string, 10);
   }
 
   get product() {
-    return sourseData.products.find((product) => product.id === this.productId)
+    return this.products.find((product) => product.id === this.productId);
   }
 
   defaultImage(e) {

@@ -20,25 +20,25 @@
     <router-link class="header-component__router-link" :to="{name: 'aboutPage'}">About</router-link>
     <div class="authorization-container">
       <div 
-      v-if="!this.$store.state.isAuth"
+      v-if="!isAuth"
       class="authorization-container__btn"
-      @click="showSignIn">
+      @click="updateSignInVisibility">
         Sing In
       </div>
       <div 
-      v-if="!this.$store.state.isAuth" 
+      v-if="!isAuth" 
       class="authorization-container__btn"
-      @click="showSignUp">
+      @click="updateSignUpVisibility">
         Sing Up
       </div>
       <router-link 
-      v-if="this.$store.state.isAuth"
+      v-if="isAuth"
       class="authorization-container__btn"
       :to="{ name: 'userPage' }">
-        {{ this.$store.state.userData.login }}
+        {{ userData.login }}
       </router-link>
       <router-link
-      v-if="this.$store.state.isAuth"
+      v-if="isAuth"
       class="authorization-container__btn"
       :to="{ name: 'homePage' }"
       @click="logOut">
@@ -48,52 +48,66 @@
   </div>
   <teleport to="#modals">
     <ModalComponent v-model:show="signInVisible">
-      <SignInComponent @updateVisibility="hideSignIn"/>
+      <SignInComponent @updateVisibility="updateSignInVisibility"/>
     </ModalComponent>
     <ModalComponent v-model:show="signUpVisible">
-      <SignUpComponent @updateVisibility="hideSignUp"/>
+      <SignUpComponent @updateVisibility="updateSignUpVisibility"/>
     </ModalComponent>
   </teleport>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState, mapMutations } from 'vuex';
 import DropdownComponent from '@/components/DropdownComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import SignInComponent from '@/components/SignInComponent.vue';
 import SignUpComponent from '@/components/SignUpComponent.vue';
+import { IUser } from '@/interfaces/IUser';
 
 @Options({
   components: {
     DropdownComponent,
     ModalComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+  },
+  methods: {
+    ...mapMutations([
+      'userLogout',
+      'clearUserData'
+    ])
+  },
+  computed: {
+    ...mapState([
+      'isAuth',
+      'userData'
+    ])
   }
 })
 export default class HeaderComponent extends Vue {
   signInVisible = false;
   signUpVisible = false;
+  isAuth?: boolean;
+  userData?: IUser;
+  userLogout?: () => void;
+  clearUserData?: () => void;
 
-  showSignIn() {
-    this.signInVisible = true;
+  updateSignInVisibility() {
+    this.signInVisible = !this.signInVisible;
   }
 
-  showSignUp() {
-    this.signUpVisible = true;
-  }
-
-  hideSignIn() {
-    this.signInVisible = false;
-  }
-
-  hideSignUp() {
-    this.signUpVisible = false;
+  updateSignUpVisibility() {
+    this.signUpVisible = !this.signUpVisible;
   }
 
   logOut() {
-    this.$store.commit('userLogout');
-    this.$store.commit('clearUserData');
+    if (this.userLogout) {
+      this.userLogout();
+    }
+    if (this.clearUserData) {
+      this.clearUserData();
+    }
   }
 }
 </script>

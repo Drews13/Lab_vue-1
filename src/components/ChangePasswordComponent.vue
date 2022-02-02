@@ -17,29 +17,37 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState } from 'vuex';
 import InputComponent from '@/components/InputComponent.vue';
-import checkPassword from '@/utils/PasswordValidation';
-import checkPasswordsEquality from '@/utils/PasswordsEquality';
+import Validation from '@/utils/Validation';
+import TextConstants from '@/constants/TextConstants';
+import { IUser } from '@/interfaces/IUser';
 
 @Options({
   components: {
     InputComponent
+  },
+  computed: {
+    ...mapState([
+      'userData'
+    ])
   }
 })
 export default class ChangePasswordComponent extends Vue {
   currentPassword = '';
   newPassword = '';
   repeatedPassword = '';
+  userData?: IUser;
 
-  onCurrentPasswordChanged(value) {
+  onCurrentPasswordChanged(value: string) {
     this.currentPassword = value;
   }
 
-  onNewPasswordChanged(value) {
+  onNewPasswordChanged(value: string) {
     this.newPassword = value;
   }
 
-  onRepeatedPasswordChanged(value) {
+  onRepeatedPasswordChanged(value: string) {
     this.repeatedPassword = value;
   }
 
@@ -47,26 +55,27 @@ export default class ChangePasswordComponent extends Vue {
     this.$emit('updateVisibility');
 
     if (!this.checkCoincidence()) {
-      this.$emit('alert', true, 'Wrong current password!', null);
+      this.$emit('alert', true, TextConstants.wrongCurrPasswordMsg, null);
       return false;
     }
 
-    if (!checkPassword(this.newPassword)) {
-      this.$emit('alert', true, 'Password cannot be less then 5 characters!', null);
+    if (!Validation.checkPassword(this.newPassword)) {
+      this.$emit('alert', true, TextConstants.shortPasswordMsg, null);
       return false;
     }
 
-    if (!checkPasswordsEquality(this.newPassword, this.repeatedPassword)) {
-      this.$emit('alert', true, 'Passwords do not match!', null);
+    if (!Validation.checkPasswordsEquality(this.newPassword, this.repeatedPassword)) {
+      this.$emit('alert', true, TextConstants.mismatchedPasswordMsg, null);
       return true;
     }
     
-    this.$emit('alert', false, 'Success', this.newPassword);
+    this.$emit('alert', false, TextConstants.successMsg, this.newPassword);
+
     return true;
   }
 
   checkCoincidence() {
-    return this.currentPassword === this.$store.state.userData?.password;
+    return this.currentPassword === this.userData?.password;
   }
 }
 </script>
