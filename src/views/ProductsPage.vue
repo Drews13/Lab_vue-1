@@ -15,27 +15,17 @@
       </select>
       <select class="filters-item" v-model="genreOption" @change="onOptionChanged">
         <option value="">All Genres</option>
-        <option value="Action/RPG">Action/RPG</option>
-        <option value="Fantasy">Fantasy</option>
-        <option value="Shooter">Shooter</option>
-        <option value="Sports Simulator">Sports Simulator</option>
-        <option value="Survival Horror">Survival Horror</option>
+        <option v-for="genre in genres" :key="genre" :value="genre">{{ genre }}</option>
       </select>
       <select class="filters-item" v-model="ratingOption" @change="onOptionChanged">
         <option value="">All Ratings</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+        <option v-for="n in maxRating" :key=n :value="n">{{n}}</option>
       </select>
       <select class="filters-item" v-model="publisherOption" @change="onOptionChanged">
         <option value="">All Publishers</option>
-        <option value="Bethesda Softworks">Bethesda Softworks</option>
-        <option value="Blizzard Entertainment">Blizzard Entertainment</option>
-        <option value="CD Projekt">CD Projekt</option>
-        <option value="Electronic Arts">Electronic Arts</option>
-        <option value="Techland">Techland</option>
+        <option v-for="publisher in publishers" :key="publisher" :value="publisher">
+          {{ publisher }}
+        </option>
       </select>
     </SectionComponent>
     <SectionComponent>
@@ -46,6 +36,9 @@
       </div>
     </SectionComponent>
   </div>
+  <teleport to="#loader">
+    <LoaderComponent v-if="showLoader"/>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -54,6 +47,8 @@ import { IProduct } from '@/interfaces/IProduct';
 import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
+import LoaderComponent from '@/components/LoaderComponent.vue';
+import Constants from '@/constants/Constants'
 import TextConstants from '@/constants/TextConstants';
 
 // eslint-disable-next-line no-shadow
@@ -66,7 +61,8 @@ enum SortType {
   components: {
     CardComponent,
     SectionComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    LoaderComponent
   }
 })
 export default class ProductsPage extends Vue {
@@ -76,6 +72,22 @@ export default class ProductsPage extends Vue {
   genreOption = '';
   ratingOption = '';
   publisherOption = '';
+  showLoader = false;
+  genres = [
+    'Action/RPG',
+    'Fantasy',
+    'Shooter',
+    'Sports Simulator',
+    'Survival Horror'
+  ];
+  publishers = [
+    'Bethesda Softworks',
+    'Blizzard Entertainment',
+    'CD Projekt',
+    'Electronic Arts',
+    'Techland'
+  ]
+  maxRating = Constants.maxProductRating;
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/products`)
@@ -90,20 +102,20 @@ export default class ProductsPage extends Vue {
   get sortedProducts() {
     switch (this.sortOption) {
       case 'PriceAsc': 
-        return this.products.sort(this.sortProducts('price', SortType.ASC));
+        return this.products.sort(this.customSort<IProduct>('price', SortType.ASC));
       case 'PriceDesc': 
-        return this.products.sort(this.sortProducts('price', SortType.DESC));
+        return this.products.sort(this.customSort<IProduct>('price', SortType.DESC));
       case 'RatingAsc': 
-        return this.products.sort(this.sortProducts('rating', SortType.ASC));
+        return this.products.sort(this.customSort<IProduct>('rating', SortType.ASC));
       case 'RatingDesc': 
-        return this.products.sort(this.sortProducts('rating', SortType.DESC));
+        return this.products.sort(this.customSort<IProduct>('rating', SortType.DESC));
       default:
-        return this.products.sort(this.sortProducts('creationDate', SortType.DESC));
+        return this.products.sort(this.customSort<IProduct>('creationDate', SortType.DESC));
     }
   }
 
-  sortProducts(field: string, type: SortType): (a, b) => number {
-    return (a: IProduct, b: IProduct):number => {
+  customSort<T>(field: string, type: SortType): (a: T, b: T) => number {
+    return (a: T, b: T): number => {
       if (a[field] > b[field]) return type === SortType.ASC ? 1 : -1;
       if (a[field] < b[field]) return type === SortType.ASC ? -1 : 1;
       return 0;
@@ -111,11 +123,15 @@ export default class ProductsPage extends Vue {
   }
 
   onOptionChanged() {
-    this.filteredProducts = this.sortedProducts.filter(
-      (product) => (product.genre === this.genreOption || this.genreOption === '')
-        && (product.rating === Number(this.ratingOption) || this.ratingOption === '')
-        && (product.publisher === this.publisherOption || this.publisherOption === '')
-    );
+    this.showLoader = true;
+    setTimeout(() => {
+      this.showLoader = false;
+      this.filteredProducts = this.sortedProducts.filter(
+        (product) => (product.genre === this.genreOption || this.genreOption === '')
+          && (product.rating === Number(this.ratingOption) || this.ratingOption === '')
+          && (product.publisher === this.publisherOption || this.publisherOption === '')
+      );
+    }, 1000);
   }
 }
 </script>
