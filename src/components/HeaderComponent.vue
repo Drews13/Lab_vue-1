@@ -45,6 +45,13 @@
         Logout
       </router-link>
     </div>
+    <div v-if="isAuth" class="basket-container">
+      <router-link class="basket-container__content" :to="{ name: 'cartPage' }">
+        <img class="basket-container__image" src="/images/icons/Cart.png">
+        <label v-if="itemsInCartCount === 1">1 Item</label>
+        <label v-else>{{itemsInCartCount}} Items</label>
+      </router-link>
+    </div>
   </div>
   <teleport to="#modals">
     <ModalComponent v-model:show="signInVisible">
@@ -58,7 +65,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import DropdownComponent from '@/components/DropdownComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import SignInComponent from '@/components/SignInComponent.vue';
@@ -82,6 +89,9 @@ import { IUser } from '@/interfaces/IUser';
     ...mapState([
       'isAuth',
       'userData'
+    ]),
+    ...mapGetters([
+      'itemsInCartCount'
     ])
   }
 })
@@ -90,6 +100,7 @@ export default class HeaderComponent extends Vue {
   signUpVisible = false;
   isAuth?: boolean;
   userData?: IUser;
+  itemsInCartCount?: number;
   userLogout?: () => void;
   clearUserData?: () => void;
 
@@ -184,4 +195,28 @@ export default class HeaderComponent extends Vue {
       }
     }
   }
+
+  .basket-container {
+    border-left: 1px solid $color-authorization-border;
+    display: inline-block;
+    height: 4rem;
+
+    &__image {
+      vertical-align: middle;
+      padding-right: 0.5rem;
+      margin-bottom: 4px;
+      height: 2rem;
+      width: 2rem;
+    }
+
+    &__content {
+      text-decoration: none;
+      padding: 1rem 2rem;
+      display: inline-block;
+      margin-right: 20px;
+      color: $color-white;
+      cursor: pointer;
+    }
+  }
+
 </style>

@@ -15,14 +15,28 @@
       :to="{name: 'productPage', params:{id: product.id}}">
         <h3 class="back__description">{{product.shortDescription}}</h3>
       </router-link>
-      <button class="back__button">Add to cart</button>
+      <button  v-if="isInCart" class="back__button" @click="removeFromCart">
+        Remove from cart
+      </button>
+      <button v-else class="back__button" @click="addToCart">Add to cart</button>
     </div>
   </div>
+  <teleport to="#alert">
+    <AlertComponent
+    v-if="showAlert"
+    :isAlertSuccessStyle="!error"
+    :isAlertErrorStyle="error"
+    :message="alertMessage"/>
+  </teleport>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import { IProduct } from '@/interfaces/IProduct';
+import AlertComponent from '@/components/AlertComponent.vue';
+import TextConstants from '@/constants/TextConstants';
+import TimeConstants from '@/constants/TimeConstants';
 
 @Options({
   props: {
@@ -30,9 +44,71 @@ import { IProduct } from '@/interfaces/IProduct';
       type: Object as ()=> IProduct,
       required: true
     }
+  },
+  components: {
+    AlertComponent
+  },
+  computed: {
+    ...mapState([
+      'isAuth'
+    ]),
+    ...mapGetters([
+      'findItemById'
+    ]),
+  },
+  methods: {
+    ...mapMutations([
+      'addCartItem',
+      'removeCartItem'
+    ])
   }
 })
 export default class ProductCardComponent extends Vue {
+  findItemById?: (data: number) => boolean;
+  addCartItem?: (data: IProduct) => void;
+  removeCartItem?: (data: number) => void;
+  isAuth?: boolean;
+  product?: IProduct;
+  showAlert = false;
+  error = false;
+  alertMessage = '';
+
+  get isInCart() {
+    if (this.findItemById && this.product) {
+      return this.findItemById(this.product.id);
+    }
+    return false;
+  } 
+
+  addToCart() {
+    if (this.isAuth) {
+      if (this.addCartItem && this.product) {
+        this.addCartItem(this.product);
+        this.error = false;
+        this.alertMessage = TextConstants.successMsg;
+      }
+    } else {
+      this.error = true;
+      this.alertMessage = TextConstants.nonAuthMsg;
+    }
+    this.showAlert = true;
+    setTimeout(() => {
+      this.showAlert = false;
+    }, TimeConstants.alertHideTime);
+  }
+
+  removeFromCart() {
+    if (this.removeCartItem && this.product) {
+      this.removeCartItem(this.product.id);
+      this.error = false;
+      this.alertMessage = TextConstants.successMsg;
+      this.showAlert = true;
+      setTimeout(() => {
+        this.showAlert = false;
+      }, TimeConstants.alertHideTime);
+    }
+  }
+
   defaultImage(e) {
     e.target.src = '/images/notFound/notFound1.png';
   }
