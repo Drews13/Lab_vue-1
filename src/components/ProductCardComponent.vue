@@ -15,7 +15,7 @@
       :to="{name: 'productPage', params:{id: product.id}}">
         <h3 class="back__description">{{product.shortDescription}}</h3>
       </router-link>
-      <button  v-if="isInCart" class="back__button" @click="removeFromCart">
+      <button  v-if="findItemById(product.id)" class="back__button" @click="removeFromCart">
         Remove from cart
       </button>
       <button v-else class="back__button" @click="addToCart">Add to cart</button>
@@ -64,21 +64,14 @@ import TimeConstants from '@/constants/TimeConstants';
   }
 })
 export default class ProductCardComponent extends Vue {
-  findItemById?: (data: number) => boolean;
+  findItemById?: (id: number) => boolean;
   addCartItem?: (data: IProduct) => void;
-  removeCartItem?: (data: number) => void;
+  removeCartItem?: (id: number) => void;
   isAuth?: boolean;
   product?: IProduct;
   showAlert = false;
   error = false;
   alertMessage = '';
-
-  get isInCart() {
-    if (this.findItemById && this.product) {
-      return this.findItemById(this.product.id);
-    }
-    return false;
-  } 
 
   addToCart() {
     if (this.isAuth) {

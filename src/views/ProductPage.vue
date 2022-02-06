@@ -13,7 +13,10 @@
       <div class="main-info__price">
         {{product.price}}$
       </div>
-      <button v-if="isInCart" class="main-info__add-to-cart-btn" @click="removeFromCart">
+      <button 
+      v-if="findItemById(product.id)"
+      class="main-info__add-to-cart-btn"
+      @click="removeFromCart">
         Remove from Cart
       </button>
       <button v-else class="main-info__add-to-cart-btn" @click="addToCart">
@@ -84,9 +87,9 @@ import TimeConstants from '@/constants/TimeConstants';
 })
 export default class ProductPage extends Vue {
   products: IProduct[] = [];
-  findItemById?: (data: number) => boolean;
+  findItemById?: (id: number) => boolean;
   addCartItem?: (data: IProduct) => void;
-  removeCartItem?: (data: number) => void;
+  removeCartItem?: (id: number) => void;
   isAuth?: boolean;
   showAlert = false;
   error = false;
@@ -108,13 +111,6 @@ export default class ProductPage extends Vue {
   get product() {
     return this.products.find((product) => product.id === this.productId);
   }
-
-  get isInCart() {
-    if (this.findItemById && this.product) {
-      return this.findItemById(this.product.id);
-    }
-    return false;
-  } 
 
   addToCart() {
     if (this.isAuth) {
