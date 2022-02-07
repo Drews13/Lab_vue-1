@@ -70,6 +70,7 @@ export default class ChangePasswordComponent extends Vue {
     }
     
     this.$emit('alert', false, TextConstants.successMsg, this.newPassword);
+
     return true;
   }
 

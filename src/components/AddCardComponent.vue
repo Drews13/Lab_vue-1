@@ -58,6 +58,7 @@ export default class AddCardComponent extends Vue {
 
     if (!Validation.checkCvv(this.cvv)) {
       this.$emit('alert', true, TextConstants.wrongCardCvvMsg, null);
+
       return true;
     }
 
