@@ -67,7 +67,7 @@
   "products": [
     {
       "id": 1,
-      "categoryId": 1,
+      "categoriesId": [1, 2, 3],
       "name": "Overwatch",
       "shortDescription": "Some Owerwatch short descrpition",
       "detailedDescription": "Some Owerwatch detailed descrpition",
@@ -81,11 +81,12 @@
       "rating": 5,
       "genre": "Shooter",
       "price": 29.99,
-      "creationDate": "2021-09-09"
+      "creationDate": "2021-09-09",
+      "quantity": 1
     },
     {
       "id": 2,
-      "categoryId": 2,
+      "categoriesId": [1],
       "name": "FIFA21",
       "shortDescription": "Some FIFA21 short descrpition",
       "detailedDescription": "Some FIFA21 detailed descrpition",
@@ -99,11 +100,12 @@
       "rating": 5,
       "genre": "Sports Simulator",
       "price": 59.99,
-      "creationDate": "2020-12-18"
+      "creationDate": "2020-12-18",
+      "quantity": 1
     },
     {
       "id": 3,
-      "categoryId": 3,
+      "categoriesId": [1, 2, 3],
       "name": "Dying Light 2 Stay Human",
       "shortDescription": "Some Dying Light 2 Stay Human short descrpition",
       "detailedDescription": "Some Dying Light 2 Stay Human detailed descrpition",
@@ -117,11 +119,12 @@
       "rating": 5,
       "genre": "Survival Horror",
       "price": 59.99,
-      "creationDate": "2021-09-25"
+      "creationDate": "2021-09-25",
+      "quantity": 1
     },
     {
       "id": 4,
-      "categoryId": 1,
+      "categoriesId": [1, 2],
       "name": "The Elder Scrolls V: Skyrim",
       "shortDescription": "Some The Elder Scrolls V: Skyrim short descrpition",
       "detailedDescription": "Some The Elder Scrolls V: Skyrim detailed descrpition",
@@ -135,11 +138,12 @@
       "rating": 5,
       "genre": "Fantasy",
       "price": 19.99,
-      "creationDate": "2021-06-25"
+      "creationDate": "2021-06-25",
+      "quantity": 1
     },
     {
       "id": 5,
-      "categoryId": 2,
+      "categoriesId": [1, 2, 3],
       "name": "TheWitcher 3",
       "shortDescription": "The Witcher 3 short descrpition",
       "detailedDescription": "The Witcher 3 detailed descrpition",
@@ -153,11 +157,12 @@
       "rating": 5,
       "genre": "Action/RPG",
       "price": 39.99,
-      "creationDate": "2021-02-10"
+      "creationDate": "2021-02-10",
+      "quantity": 1
     },
     {
       "id": 6,
-      "categoryId": 3,
+      "categoriesId": [2],
       "name": "Battlefield 2042",
       "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
       "detailedDescription": "Some Battlefield 2042 Stay Human detailed descrpition",
@@ -171,7 +176,8 @@
       "rating": 5,
       "genre": "Shooter",
       "price": 69.99,
-      "creationDate": "2021-06-28"
+      "creationDate": "2021-06-28",
+      "quantity": 1
     }
   ]
 }

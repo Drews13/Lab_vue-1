@@ -5,7 +5,7 @@
     :isAlertSuccessStyle="!error"
     :isAlertErrorStyle="error"
     :message="alertMessage"/>
-    <h1>My Account</h1>
+    <h1 class="user-page__title">My Account</h1>
     <div class="user-page__content">
       <div class="field">
         <h2>Login</h2>
@@ -220,7 +220,9 @@ export default class UserPage extends Vue {
   onCardSubmitted(isErr, message, cardObj) {
     this.error = isErr;
     this.alertMessage = message;
-    this.paymentCard = cardObj;
+    if (!isErr) {
+      this.paymentCard = cardObj;
+    }
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
@@ -234,7 +236,9 @@ export default class UserPage extends Vue {
   onPasswordSubmitted(isErr, message, passwordStr) {
     this.error = isErr;
     this.alertMessage = message;
-    this.password = passwordStr;
+    if (!isErr) {
+      this.password = passwordStr;
+    }
     this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
@@ -348,6 +352,10 @@ export default class UserPage extends Vue {
 
 <style lang="scss">
   .user-page {
+    &__title {
+      @include bottomBorder(3px, $color-grey);
+    }
+
     &__content {
       border-radius: 15px;
       padding: 10px 10px 100px 10px;

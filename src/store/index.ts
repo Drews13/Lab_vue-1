@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import { IState } from '@/interfaces/IState';
+import { IUser } from '@/interfaces/IUser';
+import { IProduct } from '@/interfaces/IProduct';
+import { IError } from '@/interfaces/IError';
+import { IWarning } from '@/interfaces/IWarning';
 
 const store = createStore<IState>({
   plugins: [createPersistedState({})],
@@ -8,6 +12,7 @@ const store = createStore<IState>({
   state: {
     isAuth: false,
     userData: null,
+    cartItems: [],
     warnings: [],
     errors: [],
   },
@@ -21,15 +26,34 @@ const store = createStore<IState>({
       state.isAuth = false;
     },
 
-    storeUserData(state, data) {
+    storeUserData(state, data: IUser) {
       state.userData = data;
     },
 
     clearUserData(state) {
       state.userData = null;
+      state.cartItems = [];
     },
 
-    storeWarning(state, data) {
+    addCartItem(state, data: IProduct) {
+      state.cartItems.push(data);
+    },
+
+    removeCartItem(state, id: number) {
+      const index = state.cartItems.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        state.cartItems.splice(index, 1);
+      }
+    },
+
+    changeItemQuantity(state, data: {id:number, term: number}) {
+      const foundItem = state.cartItems.find((item) => item.id === data.id);
+      if (foundItem) {
+        foundItem.quantity += data.term;
+      }
+    },
+
+    storeWarning(state, data: IWarning) {
       if (state.warnings.length < 5) {
         state.warnings.push(data);
       } else {
@@ -38,7 +62,7 @@ const store = createStore<IState>({
       }
     },
 
-    storeError(state, data) {
+    storeError(state, data: IError) {
       if (state.errors.length < 5) {
         state.errors.push(data);
       } else {
@@ -46,6 +70,11 @@ const store = createStore<IState>({
         state.errors.push(data);
       }
     }
+  },
+
+  getters: {
+    findItemById: (state) => (id: number) => !!state.cartItems.find((item) => item.id === id),
+    itemsInCartCount: (state) => state.cartItems.length
   }
 });
 

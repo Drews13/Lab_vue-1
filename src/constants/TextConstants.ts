@@ -12,5 +12,6 @@ export default {
   mismatchedPasswordMsg: 'Passwords do not match!',
   wrongLoginMsg: 'Wrong login!',
   wrongAgeMsg: 'Wrong age!',
-  userExistsMsg: 'Such user already exists!'
+  userExistsMsg: 'Such user already exists!',
+  nonAuthMsg: 'You need to log in/ register'
 }

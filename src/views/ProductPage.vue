@@ -1,5 +1,10 @@
 <template>
   <div class="product-page" v-if="products.length">
+    <AlertComponent
+    v-if="showAlert"
+    :isAlertSuccessStyle="!error"
+    :isAlertErrorStyle="error"
+    :message="alertMessage"/>
     <img class="product-page__image" 
     :src="`/images/productsImages/${product.image}`"
     @error="defaultImage">
@@ -8,7 +13,15 @@
       <div class="main-info__price">
         {{product.price}}$
       </div>
-      <button class="main-info__add-to-cart-btn">Add to Cart</button>
+      <button 
+      v-if="findItemById(product.id)"
+      class="main-info__add-to-cart-btn"
+      @click="removeFromCart">
+        Remove from Cart
+      </button>
+      <button v-else class="main-info__add-to-cart-btn" @click="addToCart">
+        Add to cart
+      </button>
     </div>
     <div class="details">
       <div class="table">
@@ -46,12 +59,41 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
-import TextConstants from '@/constants/TextConstants';
+import { Vue, Options } from 'vue-class-component';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import { IProduct } from '@/interfaces/IProduct';
+import AlertComponent from '@/components/AlertComponent.vue';
+import TextConstants from '@/constants/TextConstants';
+import TimeConstants from '@/constants/TimeConstants';
 
+@Options({
+  components: {
+    AlertComponent
+  },
+  computed: {
+    ...mapState([
+      'isAuth'
+    ]),
+    ...mapGetters([
+      'findItemById'
+    ]),
+  },
+  methods: {
+    ...mapMutations([
+      'addCartItem',
+      'removeCartItem'
+    ])
+  }
+})
 export default class ProductPage extends Vue {
   products: IProduct[] = [];
+  findItemById?: (id: number) => boolean;
+  addCartItem?: (data: IProduct) => void;
+  removeCartItem?: (id: number) => void;
+  isAuth?: boolean;
+  showAlert = false;
+  error = false;
+  alertMessage = '';
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/products`)
@@ -68,6 +110,35 @@ export default class ProductPage extends Vue {
 
   get product() {
     return this.products.find((product) => product.id === this.productId);
+  }
+
+  addToCart() {
+    if (this.isAuth) {
+      if (this.addCartItem && this.product) {
+        this.addCartItem(this.product);
+        this.error = false;
+        this.alertMessage = TextConstants.successMsg;
+      }
+    } else {
+      this.error = true;
+      this.alertMessage = TextConstants.nonAuthMsg;
+    }
+    this.showAlert = true;
+    setTimeout(() => {
+      this.showAlert = false;
+    }, TimeConstants.alertHideTime);
+  }
+
+  removeFromCart() {
+    if (this.removeCartItem && this.product) {
+      this.removeCartItem(this.product.id);
+      this.error = false;
+      this.alertMessage = TextConstants.successMsg;
+      this.showAlert = true;
+      setTimeout(() => {
+        this.showAlert = false;
+      }, TimeConstants.alertHideTime);
+    }
   }
 
   defaultImage(e) {

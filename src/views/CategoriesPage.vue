@@ -33,7 +33,7 @@ export default class CategoriesPage extends Vue {
       .then((data) => { 
         this.categories = data 
       })
-      .catch((err) => console.log(err.message))
+      .catch((err) => console.log(err.message));
   }
 }
 </script>
@@ -41,7 +41,7 @@ export default class CategoriesPage extends Vue {
 <style lang="scss" scoped>
   .categories-page {
     &__title {
-      @include bottomBorder(3px, $color-grey)
+      @include bottomBorder(3px, $color-grey);
     }
   }
 </style>

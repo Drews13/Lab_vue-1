@@ -48,7 +48,7 @@ import CardComponent from '@/components/CardComponent.vue';
 import SectionComponent from '@/components/SectionComponet.vue';
 import ProductCardComponent from '@/components/ProductCardComponent.vue';
 import LoaderComponent from '@/components/LoaderComponent.vue';
-import Constants from '@/constants/Constants'
+import Constants from '@/constants/Constants';
 import TextConstants from '@/constants/TextConstants';
 
 // eslint-disable-next-line no-shadow
@@ -86,7 +86,7 @@ export default class ProductsPage extends Vue {
     'CD Projekt',
     'Electronic Arts',
     'Techland'
-  ]
+  ];
   maxRating = Constants.maxProductRating;
 
   async mounted() {

@@ -66,7 +66,7 @@ export default class ChangePasswordComponent extends Vue {
 
     if (!Validation.checkPasswordsEquality(this.newPassword, this.repeatedPassword)) {
       this.$emit('alert', true, TextConstants.mismatchedPasswordMsg, null);
-      return true;
+      return false;
     }
     
     this.$emit('alert', false, TextConstants.successMsg, this.newPassword);
