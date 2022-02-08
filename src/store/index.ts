@@ -53,6 +53,13 @@ const store = createStore<IState>({
       }
     },
 
+    changeItemCategory(state, data: {itemId: number, categoryId: number}) {
+      const foundItem = state.cartItems.find((item) => item.id === data.itemId);
+      if (foundItem) {
+        foundItem.categoryId = data.categoryId;
+      }
+    },
+
     clearCart(state) {
       state.cartItems = [];
     },
@@ -78,7 +85,14 @@ const store = createStore<IState>({
 
   getters: {
     findItemById: (state) => (id: number) => !!state.cartItems.find((item) => item.id === id),
-    itemsInCartCount: (state) => state.cartItems.length
+    itemsInCartCount: (state) => state.cartItems.length,
+    totalCost: (state) => {
+      const initialValue = 0;
+      return state.cartItems.reduce(
+        (previous, current) => previous + current.price * current.quantity,
+        initialValue
+      ).toFixed(2);
+    }
   }
 });
 

@@ -48,6 +48,11 @@ const routes = [
     component: () => import('@/views/CheckoutPage.vue'),
   },
   {
+    path: '/order/thanks/:id',
+    name: 'orderThanksPage',
+    component: () => import('@/views/OrderThanksPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/NotFoundPage.vue'),

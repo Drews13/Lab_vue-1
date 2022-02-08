@@ -67,11 +67,7 @@
   "products": [
     {
       "id": 1,
-      "categoriesId": [
-        1,
-        2,
-        3
-      ],
+      "categoryId": 1,
       "name": "Overwatch",
       "shortDescription": "Some Owerwatch short descrpition",
       "detailedDescription": "Some Owerwatch detailed descrpition",
@@ -90,9 +86,7 @@
     },
     {
       "id": 2,
-      "categoriesId": [
-        1
-      ],
+      "categoryId": 1,
       "name": "FIFA21",
       "shortDescription": "Some FIFA21 short descrpition",
       "detailedDescription": "Some FIFA21 detailed descrpition",
@@ -111,11 +105,7 @@
     },
     {
       "id": 3,
-      "categoriesId": [
-        1,
-        2,
-        3
-      ],
+      "categoryId": 1,
       "name": "Dying Light 2 Stay Human",
       "shortDescription": "Some Dying Light 2 Stay Human short descrpition",
       "detailedDescription": "Some Dying Light 2 Stay Human detailed descrpition",
@@ -134,10 +124,7 @@
     },
     {
       "id": 4,
-      "categoriesId": [
-        1,
-        2
-      ],
+      "categoryId": 1,
       "name": "The Elder Scrolls V: Skyrim",
       "shortDescription": "Some The Elder Scrolls V: Skyrim short descrpition",
       "detailedDescription": "Some The Elder Scrolls V: Skyrim detailed descrpition",
@@ -156,11 +143,7 @@
     },
     {
       "id": 5,
-      "categoriesId": [
-        1,
-        2,
-        3
-      ],
+      "categoryId": 1,
       "name": "TheWitcher 3",
       "shortDescription": "The Witcher 3 short descrpition",
       "detailedDescription": "The Witcher 3 detailed descrpition",
@@ -179,9 +162,7 @@
     },
     {
       "id": 6,
-      "categoriesId": [
-        2
-      ],
+      "categoryId": 1,
       "name": "Battlefield 2042",
       "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
       "detailedDescription": "Some Battlefield 2042 Stay Human detailed descrpition",
@@ -201,21 +182,17 @@
   ],
   "orders": [
     {
-      "id": "K0VLA",
+      "id": "yOfE8",
       "userId": 2,
-      "userName": "SomeName",
-      "userSurname": "SomeSurname",
-      "deliveryAddress": "SomeAddress",
-      "deliveryDay": "2022-02-08",
-      "phoneNumber": "+375 (29) 123-32-12",
+      "userName": "q",
+      "userSurname": "qq",
+      "deliveryAddress": "qqq",
+      "deliveryDay": "2022-08-02",
+      "phoneNumber": "+375 (33) 125-78-98",
       "orderedItems": [
         {
           "id": 1,
-          "categoriesId": [
-            1,
-            2,
-            3
-          ],
+          "categoryId": 1,
           "name": "Overwatch",
           "shortDescription": "Some Owerwatch short descrpition",
           "detailedDescription": "Some Owerwatch detailed descrpition",
@@ -234,11 +211,7 @@
         },
         {
           "id": 5,
-          "categoriesId": [
-            1,
-            2,
-            3
-          ],
+          "categoryId": 2,
           "name": "TheWitcher 3",
           "shortDescription": "The Witcher 3 short descrpition",
           "detailedDescription": "The Witcher 3 detailed descrpition",
@@ -255,7 +228,8 @@
           "creationDate": "2021-02-10",
           "quantity": 2
         }
-      ]
+      ],
+      "totalCost": "109.97"
     }
   ]
 }

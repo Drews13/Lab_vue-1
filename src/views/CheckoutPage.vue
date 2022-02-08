@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapMutations, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import AlertComponent from '@/components/AlertComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import Validation from '@/utils/Validation';
@@ -56,6 +56,9 @@ import { IProduct } from '@/interfaces/IProduct';
     ...mapState([
       'userData',
       'cartItems'
+    ]),
+    ...mapGetters([
+      'totalCost',
     ])
   },
   methods: {
@@ -67,6 +70,7 @@ import { IProduct } from '@/interfaces/IProduct';
 export default class CheckoutPage extends Vue {
   userData?: IUser;
   cartItems?: IProduct[];
+  totalCost?: number;
   clearCart?: () => void;
   showAlert = false;
   alertMessage = '';
@@ -119,7 +123,8 @@ export default class CheckoutPage extends Vue {
       deliveryAddress: this.address,
       deliveryDay: this.date,
       phoneNumber: this.phone,
-      orderedItems: this.cartItems
+      orderedItems: this.cartItems,
+      totalCost: this.totalCost
     }
 
     await fetch(`${TextConstants.connectionStr}/orders`, {
@@ -133,7 +138,7 @@ export default class CheckoutPage extends Vue {
     if (this.clearCart) {
       this.clearCart();
     }
-    this.$router.push({ name: 'homePage' });
+    this.$router.push({ name: 'orderThanksPage', params: { id: orderDetails.id } });
     return true;
   }
 
