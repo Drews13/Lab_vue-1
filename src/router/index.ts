@@ -43,6 +43,11 @@ const routes = [
     component: () => import('@/views/CartPage.vue'),
   },
   {
+    path: '/checkout',
+    name: 'checkoutPage',
+    component: () => import('@/views/CheckoutPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/NotFoundPage.vue'),

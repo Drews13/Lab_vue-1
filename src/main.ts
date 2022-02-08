@@ -1,9 +1,10 @@
 import { createApp } from 'vue';
+import VueTheMask from 'vue-the-mask';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import { IError } from '@/interfaces/IError'
-import { IWarning } from '@/interfaces/IWarning'
+import { IError } from '@/interfaces/IError';
+import { IWarning } from '@/interfaces/IWarning';
 
 const app = createApp(App);
 
@@ -24,4 +25,4 @@ app.config.warnHandler = (msg, vm, trace) => {
   store.commit('storeWarning', warnInfo);
 } 
 
-app.use(router).use(store).mount('#app');
+app.use(router).use(store).use(VueTheMask).mount('#app');

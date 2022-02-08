@@ -53,6 +53,10 @@ const store = createStore<IState>({
       }
     },
 
+    clearCart(state) {
+      state.cartItems = [];
+    },
+
     storeWarning(state, data: IWarning) {
       if (state.warnings.length < 5) {
         state.warnings.push(data);

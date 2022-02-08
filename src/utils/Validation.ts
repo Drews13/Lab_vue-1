@@ -28,6 +28,10 @@ function checkPassword(password: string) {
   return password.length > 4;
 }
 
+function checkDate(date: string) {
+  return date.search(RegExprs.dateRegEx) !== -1;
+}
+
 export default {
   checkCvv,
   checkExpires,
@@ -35,5 +39,6 @@ export default {
   checkEmail,
   checkLogin,
   checkPasswordsEquality,
-  checkPassword
+  checkPassword,
+  checkDate
 }
