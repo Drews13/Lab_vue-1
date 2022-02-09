@@ -23,15 +23,19 @@
         <h2>Phone Number</h2>
         <InputComponent
         type="text"
-        text="+375 (__) ___-__-__"
-        :mask="'+375 (##) ###-##-##'"
+        :text="phonePlaceholder"
+        :mask="phoneMask"
         @update="onPhoneChanged"/>
       </div>
       <div class="field">
         <h2>Delivery Day</h2>
-        <InputComponent type="text" text="yyyy-mm-dd" :mask="'####-##-##'" @update="onDateChanged"/>
+        <InputComponent
+        type="text"
+        :text="datePlaceholder"
+        :mask="dateMask"
+        @update="onDateChanged"/>
       </div>
-      <button type="button" class="submit" @click="submit">Submit</button>
+      <button type="button" class="order-details__submit" @click="submit">Submit</button>
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@ import InputComponent from '@/components/InputComponent.vue';
 import Validation from '@/utils/Validation';
 import TextConstants from '@/constants/TextConstants';
 import TimeConstants from '@/constants/TimeConstants';
+import Constants from '@/constants/Constants';
 import { IUser } from '@/interfaces/IUser';
 import { IProduct } from '@/interfaces/IProduct';
 
@@ -80,11 +85,15 @@ export default class CheckoutPage extends Vue {
   address = '';
   phone = '';
   date = '';
+  phonePlaceholder = TextConstants.phonePlaceholder;
+  datePlaceholder = TextConstants.datePlaceholder;
+  phoneMask = TextConstants.phoneMask;
+  dateMask = TextConstants.dateMask;
 
   get generateCode() {
     let code = '';
     const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < Constants.orderCodeLength; i += 1) {
       code += charSet.charAt(Math.floor(Math.random() * charSet.length));
     }
     return code;
@@ -192,6 +201,16 @@ export default class CheckoutPage extends Vue {
     padding: 10px 10px 100px 10px;
     margin-bottom: 20px;
     background: $color-black;
+
+    &__submit {
+      padding: 13px;
+      margin: 40px 18.5%;
+      line-height: 24px;
+      color: $color-white;
+      background-color: $color-green;
+      border: none;
+      width: 63%;
+    }
   }
 
   .field {
@@ -199,15 +218,5 @@ export default class CheckoutPage extends Vue {
     width: 100%;
     padding: 0;
     margin-bottom: 30px;
-  }
-
-  .submit {
-    padding: 13px;
-    margin: 40px 18.5%;
-    line-height: 24px;
-    color: $color-white;
-    background-color: $color-green;
-    border: none;
-    width: 63%;
   }
 </style>

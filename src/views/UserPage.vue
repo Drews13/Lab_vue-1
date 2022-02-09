@@ -54,13 +54,20 @@
           <InputComponent type="text" :text="paymentCard.cvv" @update="onCvvChanged"/>
         </div>
       </div>
-      <button v-else type="button" class="payment-card-btn" @click="updateAddCardVisibility">
+      <button
+      v-else
+      type="button"
+      class="user-page__content__payment-card-btn"
+      @click="updateAddCardVisibility">
         Add Payment Card
       </button>
-      <button type="button" class="password-btn" @click="updateChangePasswordVisibility">
+      <button
+      type="button"
+      class="user-page__content__password-btn"
+      @click="updateChangePasswordVisibility">
         ChangePassword
       </button>
-      <button type="button" class="submit" @click="submit">Submit</button>
+      <button type="button" class="user-page__content__submit" @click="submit">Submit</button>
     </div>
   </div>
   <teleport to="#modals">
@@ -361,6 +368,33 @@ export default class UserPage extends Vue {
       padding: 10px 10px 100px 10px;
       margin-bottom: 20px;
       background: $color-black;
+
+      &__submit {
+        padding: 13px;
+        margin: 40px 18.5%;
+        line-height: 24px;
+        color: $color-white;
+        background-color: $color-green;
+        border: none;
+        width: 63%;
+      }
+      &__payment-card-btn {
+        padding: 13px;
+        margin-bottom: 30px;
+        line-height: 24px;
+        color: $color-black;
+        background-color: $color-orange;
+        border: none;
+        width: 100%;
+      }
+      &__password-btn {
+        padding: 13px;
+        margin-bottom: 30px;
+        line-height: 24px;
+        background-color: $color-white;
+        border: none;
+        width: 100%;
+      }
     }
   }
 
@@ -369,34 +403,5 @@ export default class UserPage extends Vue {
     width: 100%;
     padding: 0;
     margin-bottom: 30px;
-  }
-
-  .submit {
-    padding: 13px;
-    margin: 40px 18.5%;
-    line-height: 24px;
-    color: $color-white;
-    background-color: $color-green;
-    border: none;
-    width: 63%;
-  }
-
-  .payment-card-btn {
-    padding: 13px;
-    margin-bottom: 30px;
-    line-height: 24px;
-    color: $color-black;
-    background-color: $color-orange;
-    border: none;
-    width: 100%;
-  }
-
-  .password-btn {
-    padding: 13px;
-    margin-bottom: 30px;
-    line-height: 24px;
-    background-color: $color-white;
-    border: none;
-    width: 100%;
   }
 </style>
