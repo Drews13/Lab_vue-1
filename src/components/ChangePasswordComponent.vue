@@ -2,13 +2,22 @@
   <div class="change-password-component">
     <form>
       <div class="field">
-        <InputComponent type="password" text="Current Password" @update="onCurrentPasswordChanged"/>
+        <InputComponent
+        type="password"
+        :text="currentPasswordPlaceholder"
+        @update="onCurrentPasswordChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="password" text="New Password" @update="onNewPasswordChanged"/>
+        <InputComponent
+        type="password"
+        :text="newPasswordPlaceholder"
+        @update="onNewPasswordChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="password" text="Repeat Password" @update="onRepeatedPasswordChanged"/>
+        <InputComponent
+        type="password"
+        :text="repeatPasswordPlaceholder"
+        @update="onRepeatedPasswordChanged"/>
       </div>
       <button type="button" class="submit" @click="submit">Submit</button>
     </form>
@@ -38,6 +47,9 @@ export default class ChangePasswordComponent extends Vue {
   newPassword = '';
   repeatedPassword = '';
   userData?: IUser;
+  currentPasswordPlaceholder = TextConstants.currentPasswordPlaceholder;
+  newPasswordPlaceholder = TextConstants.newPasswordPlaceholder;
+  repeatPasswordPlaceholder = TextConstants.repeatPasswordPlaceholder;
 
   onCurrentPasswordChanged(value: string) {
     this.currentPassword = value;

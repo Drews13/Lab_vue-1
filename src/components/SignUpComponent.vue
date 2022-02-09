@@ -7,18 +7,21 @@
     :message="alertMessage"/>
     <form>
       <div class="field">
-        <InputComponent type="text" text="Login" @update="onLoginChanged"/>
+        <InputComponent type="text" :text="loginPlaceholder" @update="onLoginChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="text" text="E-Mail" @update="onEmailChanged"/>
+        <InputComponent type="text" :text="emailPlaceholder" @update="onEmailChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="password" text="Password" @update="onPasswordChanged"/>
+        <InputComponent type="password" :text="passwordPlaceholder" @update="onPasswordChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="password" text="Repeat Password" @update="onRepeatPasswordChanged"/>
+        <InputComponent
+        type="password"
+        :text="repeatedPasswordPlaceholder"
+        @update="onRepeatPasswordChanged"/>
       </div>
-      <button type="button" class="submit" @click="authorize">Sing up</button>
+      <button type="button" class="sign-up-component__submit" @click="authorize">Sing up</button>
     </form>
   </div>
 </template>
@@ -56,6 +59,10 @@ export default class SignUpComponent extends Vue {
   showAlert = false;
   userLogin?: () => void;
   storeUserData?: (data) => void;
+  loginPlaceholder = TextConstants.loginPlaceholder;
+  emailPlaceholder = TextConstants.emailPlaceholder;
+  passwordPlaceholder = TextConstants.passwordPlaceholder;
+  repeatedPasswordPlaceholder = TextConstants.repeatPasswordPlaceholder;
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/users`)
@@ -171,6 +178,18 @@ export default class SignUpComponent extends Vue {
 </script>
 
 <style lang="scss">
+  .sign-up-component {
+    &__submit {
+      padding: 13px;
+      margin: 15px 18.5%;
+      line-height: 24px;
+      color: $color-white;
+      background-color: $color-green;
+      border: none;
+      width: 63%;
+    }
+  }
+
   .field {
     width: 63%;
     padding: 0 18.5%;
@@ -184,15 +203,5 @@ export default class SignUpComponent extends Vue {
       width: calc(100% - 2px);
       border: 1px solid $color-grey;
     }
-  }
-
-  .submit {
-    padding: 13px;
-    margin: 15px 18.5%;
-    line-height: 24px;
-    color: $color-white;
-    background-color: $color-green;
-    border: none;
-    width: 63%;
   }
 </style>

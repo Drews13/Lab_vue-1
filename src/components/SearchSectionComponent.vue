@@ -1,6 +1,6 @@
 <template>
   <div class="search-section-component">
-    <InputComponent type="text" text="Search..." @update="onSearchChanged"/>
+    <InputComponent type="text" :text="searchPlaceholder" @update="onSearchChanged"/>
     <div class="search-section-component__results"> 
       <SectionComponent>
         <div v-for="product in searchResults"
@@ -33,6 +33,7 @@ export default class SearchSectionComponent extends Vue {
   debounceFunction!: (...args: any) => void;
   products: IProduct[] = [];
   searchResults: IProduct[] = [];
+  searchPlaceholder = TextConstants.searchPlaceholder;
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/products`)

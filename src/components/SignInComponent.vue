@@ -7,12 +7,12 @@
     :message="alertMessage"/>
     <form>
       <div class="field">
-        <InputComponent type="text" text="E-Mail" @update="onEmailChanged"/>
+        <InputComponent type="text" :text="emailPlaceholder" @update="onEmailChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="password" text="Password" @update="onPasswordChanged"/>
+        <InputComponent type="password" :text="passwordPlaceholder" @update="onPasswordChanged"/>
       </div>
-      <button type="button" class="submit" @click="logIn">Sing in</button>
+      <button type="button" class="sign-in-component__submit" @click="logIn">Sing in</button>
     </form>
   </div>
 </template>
@@ -49,6 +49,8 @@ export default class SignInComponent extends Vue {
   showAlert = false;
   userLogin?: () => void;
   storeUserData?: (data) => void;
+  emailPlaceholder = TextConstants.emailPlaceholder;
+  passwordPlaceholder = TextConstants.passwordPlaceholder;
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/users`)
@@ -130,19 +132,21 @@ export default class SignInComponent extends Vue {
 </script>
 
 <style lang="scss">
+  .sign-in-component {
+    &__submit {
+      padding: 13px;
+      margin: 15px 18.5%;
+      line-height: 24px;
+      color: $color-white;
+      background-color: $color-green;
+      border: none;
+      width: 63%;
+    }
+  }
+
   .field {
     width: 63%;
     padding: 0 18.5%;
     margin-bottom: 19px;
-  }
-
-  .submit {
-    padding: 13px;
-    margin: 15px 18.5%;
-    line-height: 24px;
-    color: $color-white;
-    background-color: $color-green;
-    border: none;
-    width: 63%;
   }
 </style>
