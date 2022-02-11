@@ -378,6 +378,7 @@ export default class UserPage extends Vue {
         border: none;
         width: 63%;
       }
+
       &__payment-card-btn {
         padding: 13px;
         margin-bottom: 30px;
@@ -387,6 +388,7 @@ export default class UserPage extends Vue {
         border: none;
         width: 100%;
       }
+      
       &__password-btn {
         padding: 13px;
         margin-bottom: 30px;
