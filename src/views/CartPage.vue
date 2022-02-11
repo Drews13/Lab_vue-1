@@ -40,16 +40,20 @@
         </div>
       </div>
     </div>
-    <div class="total-container">
+    <router-link v-if="itemsInCartCount" :to="{ name: 'checkoutPage' }">
+      <button class="checkout-btn">Checkout</button>
+    </router-link>
+    <div v-if="itemsInCartCount" class="total-container">
       <div class="total total--left">Total:</div>
       <div class="total total--right">{{totalCost}}$</div>
     </div>
+    <h3 v-else>Your Basket Is Empty</h3>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import { IProduct } from '@/interfaces/IProduct';
 import { ICategory } from '@/interfaces/ICategory';
 import TextConstants from '@/constants/TextConstants';
@@ -57,7 +61,10 @@ import TextConstants from '@/constants/TextConstants';
 @Options({
   computed: {
     ...mapState([
-      'cartItems'
+      'cartItems',
+    ]),
+    ...mapGetters([
+      'itemsInCartCount'
     ])
   },
   methods: {
@@ -70,6 +77,7 @@ import TextConstants from '@/constants/TextConstants';
 export default class CartPage extends Vue {
   cartItems?: IProduct[];
   categories: ICategory[] = [];
+  itemsInCartCount?: number;
   changeItemQuantity?: (data: {id: number, term:number}) => void;
   removeCartItem?: (id: number) => void;
 
@@ -196,8 +204,10 @@ export default class CartPage extends Vue {
   }
 
   .total-container {
-    margin-left: 50%;
     margin-top: 20px;
+    margin-left: 7%;
+    display: inline-block;
+    width: 50%;
   }
 
   .total {
@@ -211,5 +221,16 @@ export default class CartPage extends Vue {
     &--right {
       float: right;
     }
+  }
+
+  .checkout-btn {
+    cursor: pointer;
+    padding: 13px;
+    margin-top: 20px;
+    line-height: 24px;
+    color: $color-white;
+    background-color: $color-green;
+    border: none;
+    width: 43%;
   }
 </style>

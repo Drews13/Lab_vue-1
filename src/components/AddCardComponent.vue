@@ -2,13 +2,13 @@
   <div class="add-card-component">
     <form>
       <div class="field">
-        <InputComponent type="text" text="XXXX XXXX XXXX XXXX" @update="onNumberChanged"/>
+        <InputComponent type="text" :text="numberPlaceholder" @update="onNumberChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="text" text="MM-YYYY" @update="onExpiresChanged"/>
+        <InputComponent type="text" :text="expiresPlaceholder" @update="onExpiresChanged"/>
       </div>
       <div class="field">
-        <InputComponent type="text" text="CVV" @update="onCvvChanged"/>
+        <InputComponent type="text" :text="cvvPlaceholder" @update="onCvvChanged"/>
       </div>
       <button type="button" class="submit" @click="submit">Submit</button>
     </form>
@@ -30,6 +30,9 @@ export default class AddCardComponent extends Vue {
   number = '';
   expires = '';
   cvv = '';
+  numberPlaceholder = TextConstants.cardNumberPlaceholder;
+  expiresPlaceholder = TextConstants.cardExpiresPlaceholder;
+  cvvPlaceholder = TextConstants.cardCVVPlaveholder;
 
   onNumberChanged(value: string) {
     this.number = value;

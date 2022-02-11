@@ -1,6 +1,16 @@
 <template>
   <div class="input-component">
-    <input class="input-component__input"
+    <input 
+    v-if="mask"
+    class="input-component__input"
+    :type="type"
+    :placeholder="text"
+    v-model="value"
+    v-mask="mask"
+    @input="updateSearch">
+    <input 
+    v-else
+    class="input-component__input"
     :type="type"
     :placeholder="text"
     v-model="value"
@@ -22,6 +32,10 @@ type InputType = 'text' | 'password';
     },
     text: {
       type: String
+    },
+    mask: {
+      type: String,
+      default: null
     }
   }
 })
