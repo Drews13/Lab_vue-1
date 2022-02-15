@@ -14,9 +14,11 @@
           :src="`/images/productsImages/${item.image}`"
           @error="defaultImage">
           <h4 class="item__name">{{item.name}}</h4>
-          <select class="item__platforms">
-            <option v-for="id in item.categoriesId" :key="id">
-              {{getСategoryName(id)}}
+          <select 
+          class="item__platforms"
+          @change="onOptionChanged(item.id, $event)">
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{category.name}}
             </option>
           </select>
           <div class="item__quantity">
@@ -34,9 +36,7 @@
             </button>
             <div class="item__remove-btn" @click="removeCartItem(item.id)">Remove</div>
           </div>
-          <div class="item__price">
-            {{item.price}}
-          </div>
+          <div class="item__price">{{item.price}}</div>
         </div>
       </div>
     </div>
@@ -64,12 +64,14 @@ import TextConstants from '@/constants/TextConstants';
       'cartItems',
     ]),
     ...mapGetters([
-      'itemsInCartCount'
+      'itemsInCartCount',
+      'totalCost'
     ])
   },
   methods: {
     ...mapMutations([
       'changeItemQuantity',
+      'changeItemCategory',
       'removeCartItem'
     ])
   }
@@ -78,30 +80,26 @@ export default class CartPage extends Vue {
   cartItems?: IProduct[];
   categories: ICategory[] = [];
   itemsInCartCount?: number;
+  totalCost?: number;
   changeItemQuantity?: (data: {id: number, term:number}) => void;
+  changeItemCategory?: (data: {itemId: number, categoryId:number}) => void;
   removeCartItem?: (id: number) => void;
 
   async mounted() {
     await fetch(`${TextConstants.connectionStr}/categories`)
       .then((res) => res.json())
       .then((data) => { 
-        this.categories = data 
+        this.categories = data;
       })
       .catch((err) => console.log(err.message));
   }
 
-  get totalCost() {
-    const initialValue = 0;
-    return this.cartItems?.reduce(
-      (previous, current) => previous + current.price * current.quantity,
-      initialValue
-    ).toFixed(2);
-  }
-
-  getСategoryName(id: number) {
-    const foundCategory = this.categories.find((category) => category.id === id);
-    return foundCategory?.name;
-  }
+  onOptionChanged(itemId: number, event) {
+    if (this.changeItemCategory) {
+      const categoryId = Number(event.target.value);
+      this.changeItemCategory({ itemId, categoryId });
+    }
+  } 
 
   defaultImage(e) {
     e.target.src = '/images/notFound/notFound1.png';
