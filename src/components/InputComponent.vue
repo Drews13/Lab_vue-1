@@ -5,6 +5,7 @@
     class="input-component__input"
     :type="type"
     :placeholder="text"
+    :accept="accept"
     v-model="value"
     v-mask="mask"
     @input="updateSearch">
@@ -13,6 +14,7 @@
     class="input-component__input"
     :type="type"
     :placeholder="text"
+    :accept="accept"
     v-model="value"
     @input="updateSearch">
     <img class="input-component__image" src="/images/icons/Cross.png" @click="clearValue">
@@ -22,7 +24,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 
-type InputType = 'text' | 'password';
+type InputType = 'text' | 'password' | 'file';
 
 @Options({
   props: {
@@ -36,6 +38,10 @@ type InputType = 'text' | 'password';
     mask: {
       type: String,
       default: null
+    },
+    accept: {
+      type: String,
+      default: ''
     }
   }
 })

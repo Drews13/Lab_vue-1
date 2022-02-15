@@ -14,6 +14,7 @@ export default {
   cardCVVPlaveholder: 'CVV',
   phoneMask: '+375 (##) ###-##-##',
   dateMask: '####-##-##',
+  ratingMask: '#',
   successMsg: 'Success',
   wrongCardNumberMsg: 'Wrong card number!',
   wrongCardExpiresMsg: 'Wrong card expires!',
@@ -33,4 +34,15 @@ export default {
   wrongAddressMsg: 'Wrong delivery address!',
   wrongPhoneMsg: 'Wrong phone number!',
   wrongDayMsg: 'Wrong delivery day!',
+  noImgMsg: 'No image!',
+  wrongShortDescMsg: 'Wrong short description!',
+  wrongDescMsg: 'Wrong detailed description!',
+  wrongPublisherMsg: 'Wrong publisher!',
+  wrongEditionMsg: 'Wrong edition!',
+  wrongReleaseDateMsg: 'Wrong release date!',
+  wrongAnnoucementDateMsg: 'Wrong announcement date!',
+  wrongRequirementsMsg: 'Wrong system requiremets!',
+  wrongGenreMsg: 'Wrong genre!',
+  wrongRatingMsg: 'Wrong rating!',
+  wrongPriceMsg: 'Wrong price!'
 }
