@@ -17,7 +17,6 @@ import AlertComponent from '@/components/AlertComponent.vue';
 import ProductDetailsComponent from '@/components/ProductDetailsComponent.vue';
 import TextConstants from '@/constants/TextConstants';
 import TimeConstants from '@/constants/TimeConstants';
-import { IProduct } from '@/interfaces/IProduct';
 
 @Options({
   components: {
@@ -46,13 +45,12 @@ export default class AdminCreateProductPage extends Vue {
     this.showAlert = true;
 
     if (!error) {
-      const product: IProduct = productData;
       await fetch(`${TextConstants.connectionStr}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(product)
+        body: JSON.stringify(productData)
       }); 
 
       setTimeout(() => {
@@ -72,29 +70,5 @@ export default class AdminCreateProductPage extends Vue {
     &__title {
       @include bottomBorder(3px, $color-grey);
     }
-  }
-
-  .product-details {
-    border-radius: 15px;
-    padding: 10px 10px 100px 10px;
-    margin-bottom: 20px;
-    background: $color-black;
-
-    &__submit {
-      padding: 13px;
-      margin: 40px 18.5%;
-      line-height: 24px;
-      color: $color-white;
-      background-color: $color-green;
-      border: none;
-      width: 63%;
-    }
-  }
-
-  .field {
-    color: $color-white;
-    width: 100%;
-    padding: 0;
-    margin-bottom: 30px;
   }
 </style>

@@ -52,7 +52,7 @@
       <h2>Price</h2>
       <InputComponent type="text" :text="price" @update="onPriceChanged"/>
     </div>
-    <button type="button" class="product-details__submit" @click="submit">Submit</button>
+    <button type="button" class="product-details-component__submit" @click="submit">Submit</button>
   </div>
 </template>
 

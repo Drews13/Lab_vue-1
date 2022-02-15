@@ -22,11 +22,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component';
+import { Vue } from 'vue-class-component';
 import { IProduct } from '@/interfaces/IProduct';
 import TextConstants from '@/constants/TextConstants';
 
-@Options({})
 export default class AdminProductsPage extends Vue {
   products: IProduct[] = [];
 
