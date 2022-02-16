@@ -12,7 +12,7 @@
     <router-link
     class="header-component__router-link header-component__categories-link"
     :to="{name: 'categoriesPage'}">
-        CategoriesPage
+        Categories
         <div class=header-component__dropdown-wrapper>
           <DropdownComponent/>
         </div>
@@ -37,13 +37,12 @@
       :to="{ name: 'userPage' }">
         {{ userData.login }}
       </router-link>
-      <router-link
+      <div
       v-if="isAuth"
       class="authorization-container__btn"
-      :to="{ name: 'homePage' }"
       @click="logOut">
         Logout
-      </router-link>
+      </div>
     </div>
     <div v-if="isAuth" class="basket-container">
       <router-link class="basket-container__content" :to="{ name: 'cartPage' }">
@@ -51,6 +50,9 @@
         <label v-if="itemsInCartCount === 1">1 Item</label>
         <label v-else>{{itemsInCartCount}} Items</label>
       </router-link>
+    </div>
+    <div v-if="isAdmin" class="admin-container">
+      <router-link class="admin-container__link" :to="{ name: 'adminPage' }">Admin</router-link>
     </div>
   </div>
   <teleport to="#modals">
@@ -104,6 +106,10 @@ export default class HeaderComponent extends Vue {
   userLogout?: () => void;
   clearUserData?: () => void;
 
+  get isAdmin() {
+    return this.userData?.role === 'ADMIN';
+  }
+
   updateSignInVisibility() {
     this.signInVisible = !this.signInVisible;
   }
@@ -119,6 +125,7 @@ export default class HeaderComponent extends Vue {
     if (this.clearUserData) {
       this.clearUserData();
     }
+    this.$router.push({ name: 'homePage' });
   }
 }
 </script>
@@ -219,4 +226,23 @@ export default class HeaderComponent extends Vue {
     }
   }
 
+  .admin-container {
+    border-left: 1px solid $color-authorization-border;
+    display: inline-block;
+    height: 4rem;
+
+    &__link {
+      text-decoration: none;
+      padding: 1.5rem 2rem;
+      display: inline-block;
+      margin-right: 20px;
+      color: $color-white;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        color: $color-orange;
+      }
+    }
+  }
 </style>

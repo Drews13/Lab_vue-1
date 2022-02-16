@@ -53,6 +53,26 @@ const routes = [
     component: () => import('@/views/OrderThanksPage.vue'),
   },
   {
+    path: '/admin',
+    name: 'adminPage',
+    component: () => import('@/views/AdminPage.vue'),
+  },
+  {
+    path: '/admin/products',
+    name: 'adminProductsPage',
+    component: () => import('@/views/AdminProductsPage.vue'),
+  },
+  {
+    path: '/admin/products/create',
+    name: 'adminCreateProductPage',
+    component: () => import('@/views/AdminCreateProductPage.vue'),
+  },
+  {
+    path: '/admin/products/edit/:id',
+    name: 'adminEditProductPage',
+    component: () => import('@/views/AdminEditProductPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/NotFoundPage.vue'),

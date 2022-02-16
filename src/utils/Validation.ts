@@ -1,4 +1,5 @@
 import RegExprs from '@/constants/RegExprs';
+import Constants from '@/constants/Constants';
 
 function checkCvv(cvv: string) {
   return cvv.search(RegExprs.cardCVVRegEx) !== -1;
@@ -32,6 +33,15 @@ function checkDate(date: string) {
   return date.search(RegExprs.dateRegEx) !== -1;
 }
 
+function checkRating(rating: string) {
+  return rating && Number(rating) <= Constants.maxProductRating 
+  && Number(rating) >= Constants.minProductRating;
+}
+
+function checkPrice(price: string) {
+  return price.search(RegExprs.priceRegEx) !== -1;
+}
+
 export default {
   checkCvv,
   checkExpires,
@@ -40,5 +50,7 @@ export default {
   checkLogin,
   checkPasswordsEquality,
   checkPassword,
-  checkDate
+  checkDate,
+  checkRating,
+  checkPrice
 }

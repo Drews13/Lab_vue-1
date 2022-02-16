@@ -6,6 +6,7 @@
       "role": "ADMIN",
       "first_name": "Bob",
       "last_name": "Marley",
+      "email": "admin@a.a",
       "password": "232323",
       "sex": "MALE"
     },
@@ -66,7 +67,6 @@
   ],
   "products": [
     {
-      "id": 1,
       "categoryId": 1,
       "name": "Overwatch",
       "shortDescription": "Some Owerwatch short descrpition",
@@ -82,7 +82,8 @@
       "genre": "Shooter",
       "price": 29.99,
       "creationDate": "2021-09-09",
-      "quantity": 1
+      "quantity": 1,
+      "id": 1
     },
     {
       "id": 2,
@@ -161,7 +162,6 @@
       "quantity": 1
     },
     {
-      "id": 6,
       "categoryId": 1,
       "name": "Battlefield 2042",
       "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
@@ -176,8 +176,9 @@
       "rating": 5,
       "genre": "Shooter",
       "price": 69.99,
-      "creationDate": "2021-06-28",
-      "quantity": 1
+      "creationDate": "2022-02-15",
+      "quantity": 1,
+      "id": 6
     }
   ],
   "orders": [
