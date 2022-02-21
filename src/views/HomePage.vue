@@ -23,10 +23,10 @@
 import { Vue, Options } from 'vue-class-component';
 import { ICategory } from '@/interfaces/ICategory';
 import { IProduct } from '@/interfaces/IProduct';
-import CardComponent from '@/components/CardComponent.vue';
-import ProductCardComponent from '@/components/ProductCardComponent.vue';
-import SectionComponent from '@/components/SectionComponet.vue';
-import SearchSectionComponent from '@/components/SearchSectionComponent.vue';
+import CardComponent from '@/components/products/CardComponent.vue';
+import ProductCardComponent from '@/components/products/ProductCardComponent.vue';
+import SectionComponent from '@/components/ui/SectionComponet.vue';
+import SearchSectionComponent from '@/components/ui/SearchSectionComponent.vue';
 import TextConstants from '@/constants/TextConstants';
 
 @Options({

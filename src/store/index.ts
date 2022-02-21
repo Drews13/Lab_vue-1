@@ -2,9 +2,9 @@ import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import { IState } from '@/interfaces/IState';
 import { IUser } from '@/interfaces/IUser';
-import { IProduct } from '@/interfaces/IProduct';
 import { IError } from '@/interfaces/IError';
 import { IWarning } from '@/interfaces/IWarning';
+import { IProduct } from '@/interfaces/IProduct';
 
 const store = createStore<IState>({
   plugins: [createPersistedState({})],
@@ -36,25 +36,30 @@ const store = createStore<IState>({
     },
 
     addCartItem(state, data: IProduct) {
-      state.cartItems.push(data);
+      const cartItem = {
+        product: data,
+        categoryId: data.categoriesId[0],
+        quantity: 1
+      }
+      state.cartItems.push(cartItem);
     },
 
     removeCartItem(state, id: number) {
-      const index = state.cartItems.findIndex((item) => item.id === id);
+      const index = state.cartItems.findIndex((item) => item.product.id === id);
       if (index !== -1) {
         state.cartItems.splice(index, 1);
       }
     },
 
     changeItemQuantity(state, data: {id:number, term: number}) {
-      const foundItem = state.cartItems.find((item) => item.id === data.id);
+      const foundItem = state.cartItems.find((item) => item.product.id === data.id);
       if (foundItem) {
         foundItem.quantity += data.term;
       }
     },
 
     changeItemCategory(state, data: {itemId: number, categoryId: number}) {
-      const foundItem = state.cartItems.find((item) => item.id === data.itemId);
+      const foundItem = state.cartItems.find((item) => item.product.id === data.itemId);
       if (foundItem) {
         foundItem.categoryId = data.categoryId;
       }
@@ -84,12 +89,13 @@ const store = createStore<IState>({
   },
 
   getters: {
-    findItemById: (state) => (id: number) => !!state.cartItems.find((item) => item.id === id),
+    findItemById: (state) => (id: number) => !!state.cartItems
+      .find((item) => item.product.id === id),
     itemsInCartCount: (state) => state.cartItems.length,
     totalCost: (state) => {
       const initialValue = 0;
       return state.cartItems.reduce(
-        (previous, current) => previous + current.price * current.quantity,
+        (previous, current) => previous + current.product.price * current.quantity,
         initialValue
       ).toFixed(2);
     }
