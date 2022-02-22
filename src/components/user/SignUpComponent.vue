@@ -89,7 +89,9 @@ export default class SignUpComponent extends Vue {
     }
 
     this.alert(false, TextConstants.successMsg);
-    this.$emit('updateVisibility', false);
+    setTimeout(() => {
+      this.$emit('updateVisibility', false);
+    }, TimeConstants.alertHideTime);
     return true;
   }
 
