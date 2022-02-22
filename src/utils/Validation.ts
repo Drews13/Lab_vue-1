@@ -1,16 +1,8 @@
 import RegExprs from '@/constants/RegExprs';
 import Constants from '@/constants/Constants';
 
-function checkCvv(cvv: string) {
-  return cvv.search(RegExprs.cardCVVRegEx) !== -1;
-}
-
 function checkExpires(expires: string) {
   return expires.search(RegExprs.cardExpiresRegEx) !== -1;
-}
-
-function checkNumber(number: string) {
-  return number.search(RegExprs.cardNumberRegEx) !== -1;
 }
 
 function checkEmail(email: string) {
@@ -43,9 +35,7 @@ function checkPrice(price: string) {
 }
 
 export default {
-  checkCvv,
   checkExpires,
-  checkNumber,
   checkEmail,
   checkLogin,
   checkPasswordsEquality,

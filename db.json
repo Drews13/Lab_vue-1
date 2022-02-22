@@ -4,20 +4,21 @@
       "id": 1,
       "login": "Admin",
       "role": "ADMIN",
-      "first_name": "Bob",
-      "last_name": "Marley",
+      "firstName": "Bob",
+      "lastName": "Marley",
       "email": "admin@a.a",
       "password": "232323",
       "sex": "MALE"
     },
     {
       "login": "MyUserName",
+      "role": "USER",
       "firstName": "MyName",
       "lastName": "MySurname",
       "email": "fd@fd.fd",
       "password": "fffff",
       "sex": "Male",
-      "age": "21",
+      "age": "19",
       "address": "My Address",
       "shippingAddress": "My Shipping Address",
       "paymentCard": {
@@ -28,6 +29,7 @@
       "id": 2
     },
     {
+      "role": "USER",
       "login": "qqq",
       "firstName": "Q Name",
       "lastName": "Q Surname",
@@ -67,7 +69,11 @@
   ],
   "products": [
     {
-      "categoryId": 1,
+      "categoriesId": [
+        1,
+        2,
+        3
+      ],
       "name": "Overwatch",
       "shortDescription": "Some Owerwatch short descrpition",
       "detailedDescription": "Some Owerwatch detailed descrpition",
@@ -82,12 +88,13 @@
       "genre": "Shooter",
       "price": 29.99,
       "creationDate": "2021-09-09",
-      "quantity": 1,
       "id": 1
     },
     {
       "id": 2,
-      "categoryId": 1,
+      "categoriesId": [
+        1
+      ],
       "name": "FIFA21",
       "shortDescription": "Some FIFA21 short descrpition",
       "detailedDescription": "Some FIFA21 detailed descrpition",
@@ -101,12 +108,15 @@
       "rating": 5,
       "genre": "Sports Simulator",
       "price": 59.99,
-      "creationDate": "2020-12-18",
-      "quantity": 1
+      "creationDate": "2020-12-18"
     },
     {
       "id": 3,
-      "categoryId": 1,
+      "categoriesId": [
+        1,
+        2,
+        3
+      ],
       "name": "Dying Light 2 Stay Human",
       "shortDescription": "Some Dying Light 2 Stay Human short descrpition",
       "detailedDescription": "Some Dying Light 2 Stay Human detailed descrpition",
@@ -120,12 +130,14 @@
       "rating": 5,
       "genre": "Survival Horror",
       "price": 59.99,
-      "creationDate": "2021-09-25",
-      "quantity": 1
+      "creationDate": "2021-09-25"
     },
     {
       "id": 4,
-      "categoryId": 1,
+      "categoriesId": [
+        1,
+        2
+      ],
       "name": "The Elder Scrolls V: Skyrim",
       "shortDescription": "Some The Elder Scrolls V: Skyrim short descrpition",
       "detailedDescription": "Some The Elder Scrolls V: Skyrim detailed descrpition",
@@ -139,12 +151,15 @@
       "rating": 5,
       "genre": "Fantasy",
       "price": 19.99,
-      "creationDate": "2021-06-25",
-      "quantity": 1
+      "creationDate": "2021-06-25"
     },
     {
       "id": 5,
-      "categoryId": 1,
+      "categoriesId": [
+        1,
+        2,
+        3
+      ],
       "name": "TheWitcher 3",
       "shortDescription": "The Witcher 3 short descrpition",
       "detailedDescription": "The Witcher 3 detailed descrpition",
@@ -158,11 +173,12 @@
       "rating": 5,
       "genre": "Action/RPG",
       "price": 39.99,
-      "creationDate": "2021-02-10",
-      "quantity": 1
+      "creationDate": "2021-02-10"
     },
     {
-      "categoryId": 1,
+      "categoriesId": [
+        2
+      ],
       "name": "Battlefield 2042",
       "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
       "detailedDescription": "Some Battlefield 2042 Stay Human detailed descrpition",
@@ -177,60 +193,71 @@
       "genre": "Shooter",
       "price": 69.99,
       "creationDate": "2022-02-15",
-      "quantity": 1,
       "id": 6
     }
   ],
   "orders": [
     {
-      "id": "yOfE8",
+      "id": "j7DxA",
       "userId": 2,
-      "userName": "q",
-      "userSurname": "qq",
-      "deliveryAddress": "qqq",
-      "deliveryDay": "2022-08-02",
-      "phoneNumber": "+375 (33) 125-78-98",
+      "userName": "Some Name",
+      "userSurname": "Some Surname",
+      "deliveryAddress": "Some Address",
+      "deliveryDay": "2022-02-21",
+      "phoneNumber": "+375 (29) 775-68-98",
       "orderedItems": [
         {
-          "id": 1,
+          "product": {
+            "id": 3,
+            "categoriesId": [
+              1,
+              2,
+              3
+            ],
+            "name": "Dying Light 2 Stay Human",
+            "shortDescription": "Some Dying Light 2 Stay Human short descrpition",
+            "detailedDescription": "Some Dying Light 2 Stay Human detailed descrpition",
+            "publisher": "Techland",
+            "edition": "Regular",
+            "releaseDate": "2022-02-04",
+            "announcementDate": "2021-12-07",
+            "tags": "#dyinglight #techland",
+            "systemRequirements": "Memory: 16GB RAM",
+            "image": "DyingLight2.png",
+            "rating": 5,
+            "genre": "Survival Horror",
+            "price": 59.99,
+            "creationDate": "2021-09-25"
+          },
           "categoryId": 1,
-          "name": "Overwatch",
-          "shortDescription": "Some Owerwatch short descrpition",
-          "detailedDescription": "Some Owerwatch detailed descrpition",
-          "publisher": "Blizzard Entertainment",
-          "edition": "Regular",
-          "releaseDate": "2016-05-24",
-          "announcementDate": "2014-07-11",
-          "tags": "#overwatch #blizzard",
-          "systemRequirements": "Memory: 4GB RAM",
-          "image": "Owerwatch.png",
-          "rating": 5,
-          "genre": "Shooter",
-          "price": 29.99,
-          "creationDate": "2021-09-09",
           "quantity": 1
         },
         {
-          "id": 5,
+          "product": {
+            "categoriesId": [
+              2
+            ],
+            "name": "Battlefield 2042",
+            "shortDescription": "Some Battlefield 2042 Stay Human short descrpition",
+            "detailedDescription": "Some Battlefield 2042 Stay Human detailed descrpition",
+            "publisher": "Electronic Arts",
+            "edition": "Regular",
+            "releaseDate": "2021-11-19",
+            "announcementDate": "2021-06-09",
+            "tags": "#battlefield2042 #electronicarts",
+            "systemRequirements": "Memory: 8GB RAM",
+            "image": "Battlefield2042.png",
+            "rating": 5,
+            "genre": "Shooter",
+            "price": 69.99,
+            "creationDate": "2022-02-15",
+            "id": 6
+          },
           "categoryId": 2,
-          "name": "TheWitcher 3",
-          "shortDescription": "The Witcher 3 short descrpition",
-          "detailedDescription": "The Witcher 3 detailed descrpition",
-          "publisher": "CD Projekt",
-          "edition": "Regular",
-          "releaseDate": "2015-05-18",
-          "announcementDate": "2013-02-05",
-          "tags": "#thewitcher3 #cdprojekt",
-          "systemRequirements": "Memory: 6GB RAM",
-          "image": "TheWitcher3.png",
-          "rating": 5,
-          "genre": "Action/RPG",
-          "price": 39.99,
-          "creationDate": "2021-02-10",
           "quantity": 2
         }
       ],
-      "totalCost": "109.97"
+      "totalCost": "199.97"
     }
   ]
 }

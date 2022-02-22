@@ -1,12 +1,12 @@
 import { IError } from '@/interfaces/IError';
 import { IWarning } from '@/interfaces/IWarning';
 import { IUser } from '@/interfaces/IUser';
-import { IProduct } from './IProduct';
+import { ICartItem } from './ICartItem';
 
 export interface IState {
   isAuth: boolean;
   userData: IUser | null;
-  cartItems: IProduct[];
+  cartItems: ICartItem[];
   warnings: IWarning[];
   errors: IError[];
 }

@@ -10,7 +10,14 @@ const routes = [
   {
     path: '/products',
     name: 'productsPage',
-    component: () => import('@/views/ProductsPage.vue'), 
+    component: () => import('@/views/products/ProductsPage.vue'),
+    children: [
+      {
+        path: ':categoryName',
+        component: () => import('@/views/products/ProductsPage.vue'),
+        name: 'categoryPage',
+      }
+    ]
   },
   {
     path: '/about',
@@ -20,57 +27,52 @@ const routes = [
   {
     path: '/categories',
     name: 'categoriesPage',
-    component: () => import('@/views/CategoriesPage.vue'),
-  },
-  {
-    path: '/category/:id',
-    name: 'categoryPage',
-    component: () => import('@/views/CategoryPage.vue'),
+    component: () => import('@/views/categories/CategoriesPage.vue'),
   },
   {
     path: '/product/:id',
     name: 'productPage',
-    component: () => import('@/views/ProductPage.vue'),
+    component: () => import('@/views/products/ProductPage.vue'),
   },
   {
     path: '/profile',
     name: 'userPage',
-    component: () => import('@/views/UserPage.vue'),
+    component: () => import('@/views/user/UserPage.vue'),
   },
   {
     path: '/cart',
     name: 'cartPage',
-    component: () => import('@/views/CartPage.vue'),
+    component: () => import('@/views/order/CartPage.vue'),
   },
   {
     path: '/checkout',
     name: 'checkoutPage',
-    component: () => import('@/views/CheckoutPage.vue'),
+    component: () => import('@/views/order/CheckoutPage.vue'),
   },
   {
     path: '/order/thanks/:id',
     name: 'orderThanksPage',
-    component: () => import('@/views/OrderThanksPage.vue'),
+    component: () => import('@/views/order/OrderThanksPage.vue'),
   },
   {
     path: '/admin',
     name: 'adminPage',
-    component: () => import('@/views/AdminPage.vue'),
+    component: () => import('@/views/admin/AdminPage.vue'),
   },
   {
     path: '/admin/products',
     name: 'adminProductsPage',
-    component: () => import('@/views/AdminProductsPage.vue'),
+    component: () => import('@/views/admin/AdminProductsPage.vue'),
   },
   {
     path: '/admin/products/create',
     name: 'adminCreateProductPage',
-    component: () => import('@/views/AdminCreateProductPage.vue'),
+    component: () => import('@/views/admin/AdminCreateProductPage.vue'),
   },
   {
     path: '/admin/products/edit/:id',
     name: 'adminEditProductPage',
-    component: () => import('@/views/AdminEditProductPage.vue'),
+    component: () => import('@/views/admin/AdminEditProductPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
@@ -82,7 +84,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  linkActiveClass: 'header-component__router-link--active'
+  linkActiveClass: 'header-component__nav-link--active'
 });
 
 export default router;

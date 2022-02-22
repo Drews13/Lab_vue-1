@@ -8,10 +8,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import HeaderComponent from '@/components/HeaderComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
-import AlertComponent from '@/components/AlertComponent.vue';
-import ErrorBoundary from '@/components/ErrorBoundary.vue';
+import HeaderComponent from '@/components/header/HeaderComponent.vue';
+import FooterComponent from '@/components/footer/FooterComponent.vue';
 
 import '@/assets/normalize.css';
 import '@/assets/main-styles.scss';
@@ -20,8 +18,6 @@ import '@/assets/main-styles.scss';
   components: {
     HeaderComponent,
     FooterComponent,
-    AlertComponent,
-    ErrorBoundary
   }
 })
 export default class App extends Vue {

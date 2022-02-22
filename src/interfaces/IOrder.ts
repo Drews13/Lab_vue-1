@@ -1,4 +1,4 @@
-import { IProduct } from './IProduct';
+import { ICartItem } from './ICartItem';
 
 export interface IOrder {
   id: number,
@@ -8,6 +8,6 @@ export interface IOrder {
   deliveryAddress: string,
   deliveryDay: string,
   phoneNumber: string,
-  orderedItems: IProduct[],
+  orderedItems: ICartItem[],
   totalCost: string
 }
